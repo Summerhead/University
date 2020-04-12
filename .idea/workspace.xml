@@ -2,21 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_model/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/buildings.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/college_specialization.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/colleges.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/specialization_subject.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/specialization_teacher.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/specializations.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/subjects.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/teacher_subject.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/teachers.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/teacher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/relation_entity/specialization_teacher.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/buildings.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/college_specialization.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/colleges.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/specialization_subject.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/specializations.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/subjects.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/teacher_subject.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pickle/teachers.pkl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -187,7 +180,25 @@
       <option name="presentableId" value="Default" />
       <updated>1583928611261</updated>
     </task>
+    <task id="LOCAL-00001" summary="fixed database bugs hopefully">
+      <created>1586695185655</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586695185655</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -201,5 +212,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixed database bugs hopefully" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed database bugs hopefully" />
   </component>
 </project>
