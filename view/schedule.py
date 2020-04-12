@@ -5,51 +5,6 @@ import datetime
 info = ''
 
 
-class EditDayButton(tk.Button):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.configure(command=self.create_window)
-
-    def create_window(self):
-        self.edit_window = tk.Toplevel()
-
-        name_label = tk.Label(self.edit_window, text='name:')
-        name_label.place(x=10, y=10)
-
-        self.name = tk.Text(self.edit_window, height=0, width=10)
-        self.name.place(x=50, y=10)
-
-        ok_button = tk.Button(self.edit_window, text='OK', command=self._send_info)
-        ok_button.place(x=25, y=25)
-
-    def _send_info(self):
-        global info
-        name_val = self.name.get('1.0', 'end')
-
-        info = name_val
-        print(info)
-
-        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
-        subject_frame.grid(row=1, column=0)
-
-        name_label_schedule = tk.Label(self.master, text=info)
-        name_label_schedule.grid(row=1, column=0)
-
-        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
-        subject_frame.grid(row=2, column=0)
-
-        name_label_schedule = tk.Label(self.master, text=info)
-        name_label_schedule.grid(row=2, column=0)
-
-        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
-        subject_frame.grid(row=3, column=0)
-
-        name_label_schedule = tk.Label(self.master, text=info)
-        name_label_schedule.grid(row=3, column=0)
-
-        self.edit_window.destroy()
-
-
 class VerticalScrolledFrame(tk.LabelFrame):
     """A pure Tkinter scrollable frame that actually works!
     * Use the 'interior' attribute to place widgets inside the scrollable frame
@@ -150,3 +105,52 @@ class ScheduleFrame(tk.Frame):
                 row_num += 1
 
         schedule_area.pack()
+
+
+class EditDayButton(tk.Button):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.configure(command=self.create_window)
+
+        self.edit_window = None
+
+    def create_window(self):
+        self.edit_window = tk.Toplevel()
+
+        tk.Label(self.edit_window, text='Classroom').grid(row=0, column=0)
+        tk.Label(self.edit_window, text='Subject').grid(row=1, column=0)
+        tk.Label(self.edit_window, text='Type').grid(row=2, column=0)
+        tk.Label(self.edit_window, text='Teacher').grid(row=3, column=0)
+
+        name = tk.Entry(self.edit_window, height=0, width=10)
+        name.place(x=50, y=10)
+
+        ok_button = tk.Button(self.edit_window, text='OK', command=self._send_info(name))
+        ok_button.place(x=25, y=25)
+
+    def _send_info(self, name):
+        global info
+        name_val = name.get('1.0', 'end')
+
+        info = name_val
+        print(info)
+
+        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
+        subject_frame.grid(row=1, column=0)
+
+        name_label_schedule = tk.Label(self.master, text=info)
+        name_label_schedule.grid(row=1, column=0)
+
+        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
+        subject_frame.grid(row=2, column=0)
+
+        name_label_schedule = tk.Label(self.master, text=info)
+        name_label_schedule.grid(row=2, column=0)
+
+        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
+        subject_frame.grid(row=3, column=0)
+
+        name_label_schedule = tk.Label(self.master, text=info)
+        name_label_schedule.grid(row=3, column=0)
+
+        self.edit_window.destroy()

@@ -6,16 +6,16 @@ class Database(object):
         self.database = None
         self.biggest_id = 0
 
-    def open_database(self, option):
+    def open_database(self, folder, file_name):
         try:
-            with open('db_pickle/' + option.lower() + '.pkl', 'rb') as f:
+            with open(f'db_pickle/{folder}/{file_name}.pkl', 'rb') as f:
                 self.database = pickle.load(f)
 
             self.update_biggest_id()
 
         except FileNotFoundError:
-            with open('db_pickle/' + option.lower() + '.pkl', 'wb'):
-                print("Creating pickle file \"db_pickle/" + option.lower() + ".pkl\"")
+            with open(f'db_pickle/{folder}/{file_name}.pkl', 'wb'):
+                print(f"Creating pickle file \"db_pickle/{folder}/{file_name}.pkl\"")
             self.database = {}
             self.biggest_id = 0
 
@@ -23,8 +23,8 @@ class Database(object):
             self.database = {}
             self.biggest_id = 0
 
-    def save_database(self, option):
-        with open('db_pickle/' + option.lower() + '.pkl', 'wb') as f:
+    def save_database(self, folder, file_name):
+        with open(f'db_pickle/{folder}/{file_name}.pkl', 'wb') as f:
             pickle.dump(self.database, f)
 
     def update_biggest_id(self):
@@ -35,7 +35,7 @@ class Database(object):
         except IndexError:
             self.biggest_id = 0
 
-    def clear_database(self, option):
+    def clear_database(self, folder, file_name):
         self.database = {}
         self.biggest_id = 0
-        self.save_database(option)
+        self.save_database(folder, file_name)
