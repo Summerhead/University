@@ -1,6 +1,5 @@
 class Teacher(object):
-    def __init__(self, id, name, address, profession):
+    def __init__(self, id, name, profession):
         self.id = id
         self.name = name
-        self.address = address
         self.profession = profession

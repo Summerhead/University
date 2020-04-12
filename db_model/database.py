@@ -30,4 +30,12 @@ class Database(object):
     def update_biggest_id(self):
         keys = list(self.database.keys())
         keys.sort()
-        self.biggest_id = keys[-1]
+        try:
+            self.biggest_id = keys[-1]
+        except IndexError:
+            self.biggest_id = 0
+
+    def clear_database(self, option):
+        self.database = {}
+        self.biggest_id = 0
+        self.save_database(option)

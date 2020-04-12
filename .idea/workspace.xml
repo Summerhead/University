@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="" />
+    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_model/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/buildings.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/college_specialization.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/colleges.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/specialization_subject.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/specialization_teacher.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/specializations.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/subjects.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/teacher_subject.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/teachers.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/teacher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/relation_entity/specialization_teacher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +30,9 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1YyxPVt5yvyyH06mcdw8JjetEnm" />
   <component name="PropertiesComponent">
@@ -169,5 +188,18 @@
       <updated>1583928611261</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
