@@ -307,8 +307,7 @@ class NewEntityFrame(tk.Toplevel):
 
         entity_chosen_option_map = self.relation_frame.entity_chosen_option_map
         # print("entity_chosen_option_map:", entity_chosen_option_map)
-
-        print("self.relation_frame.items_to_delete:", self.relation_frame.items_to_delete)
+        # print("self.relation_frame.items_to_delete:", self.relation_frame.items_to_delete)
 
         for item, file_name in zip(entity_chosen_option_map, self.relation_frame.file_names):
             # print("item:", item)
@@ -343,7 +342,6 @@ class NewEntityFrame(tk.Toplevel):
                 # print("new_entity:", new_entity)
 
                 self.db_frame.database.database[new_entity_id] = new_entity
-
                 new_entity_id += 1
 
             self.db_frame.database.save_database("relation_entity", file_name)
@@ -363,7 +361,7 @@ class RelationFrame(tk.Frame):
         self.items_to_delete = {}
 
         self.configure_relation_frame()
-        print("self.items_to_delete:", self.items_to_delete)
+        # print("self.items_to_delete:", self.items_to_delete)
 
     def configure_relation_frame(self):
         for column, relation_entity in enumerate(self.relation_entities):
@@ -382,8 +380,7 @@ class RelationFrame(tk.Frame):
             self.entity_chosen_option_map[relation_entity] = chosen_options
             # print("self.entity_chosen_option_map:", self.entity_chosen_option_map)
 
-            drop_down = OptionMenuRelation(self, "entity", relation_entity, self.database, row=1,
-                                           column=column,
+            drop_down = OptionMenuRelation(self, "entity", relation_entity, self.database, row=1, column=column,
                                            chosen_options=chosen_options)
 
             id_name_map = drop_down.id_name_map
@@ -394,7 +391,8 @@ class RelationFrame(tk.Frame):
             for option in id_name_map:
                 menu.add_command(label=id_name_map.get(option),
                                  command=lambda _id=option, value=id_name_map.get(option), col=column,
-                                                entity=relation_entity, dd=drop_down, lbl=label: multi_functions(
+                                                entity=relation_entity, dd=drop_down, lbl=label:
+                                 multi_functions(
                                      self.create_new_relation(col, value),
                                      self.add_chosen_option(entity, dd, _id, value), lbl.grid_forget(),
                                      dd.grid_forget(), self.configure_relation_frame()))
@@ -454,13 +452,13 @@ class RelationFrame(tk.Frame):
 
                         id_chosen_option = db1[item].__dict__[self.chosen_option]
                         id_relatable_entity = db1[item].__dict__[relation_entity]
-                        print(db1[item].__dict__)
+                        # print(db1[item].__dict__)
                         # print("relation_entity:", relation_entity[:-1])
                         #
                         # print("self.chosen_option.lower()[:-1]:", self.chosen_option.lower()[:-1])
-                        print("id_chosen_option:", id_chosen_option)
+                        # print("id_chosen_option:", id_chosen_option)
                         # print("entity.id:", entity.id)
-                        print("id_relatable_entity:", id_relatable_entity)
+                        # print("id_relatable_entity:", id_relatable_entity)
 
                         if id_chosen_option == entity._id:
                             self.items_to_delete[filename].append(item)
@@ -472,11 +470,11 @@ class RelationFrame(tk.Frame):
                             for item2 in db2:
                                 attributes = self.database.database[item2].__dict__
 
-                                print("attributes[_id]:", attributes["_id"])
+                                # print("attributes[_id]:", attributes["_id"])
                                 # print(id_relatable_entity)
 
                                 if attributes["_id"] == id_relatable_entity:
-                                    print(attributes["name"])
+                                    # print(attributes["name"])
                                     # print("chosen_options:", chosen_options)
 
                                     if attributes["_id"] not in chosen_options:
@@ -514,6 +512,8 @@ class OptionMenuRelation(tk.OptionMenu):
         self.menu.delete(0, 'end')
 
         self.id_name_map = self.create_map(self.chosen_options.values())
+
+        print("self.row:", self.row)
 
     def create_map(self, chosen_options):
         self.database.open_database(self.folder, self.entity)

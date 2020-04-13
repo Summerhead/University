@@ -2,7 +2,7 @@ import tkinter as tk
 import calendar
 import datetime
 
-info = ''
+from view.database import set_entry_text
 
 
 class VerticalScrolledFrame(tk.LabelFrame):
@@ -14,7 +14,7 @@ class VerticalScrolledFrame(tk.LabelFrame):
     """
 
     def __init__(self, parent, *args, **kw):
-        tk.LabelFrame.__init__(self, parent, *args, **kw)
+        super().__init__(parent, *args, **kw)
 
         # create a canvas object and a vertical scrollbar for scrolling it
         vscrollbar = tk.Scrollbar(self, orient='vertical')
@@ -53,21 +53,28 @@ class VerticalScrolledFrame(tk.LabelFrame):
 
 class ScheduleFrame(tk.Frame):
     def __init__(self, *args, **kwargs):
-        from view.home import HomeFrame
+        from db_model.database import Database
 
         super().__init__(*args, **kwargs)
+
+        self.database = Database()
 
         self.rowconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
 
+        self.configure_widget()
+
+    def configure_widget(self):
+        from view.home import HomeFrame
+
         back = tk.Button(self, text='Back', command=lambda: self.master.switch_frame(HomeFrame))
         back.grid(row=0, column=0, padx=40, pady=20, sticky='n')
 
-        sch = tk.LabelFrame(self, text='Schedule')
-        sch.grid(row=0, column=1, padx=10, pady=10)
-        sch.rowconfigure(1, weight=1)
+        schedule_frame = tk.LabelFrame(self, text='Schedule')
+        schedule_frame.grid(row=0, column=1, padx=10, pady=10)
+        schedule_frame.rowconfigure(1, weight=1)
 
-        days_area = tk.LabelFrame(sch)
+        days_area = tk.LabelFrame(schedule_frame)
 
         day_names = calendar.day_name
         for i in range(len(day_names)):
@@ -76,10 +83,10 @@ class ScheduleFrame(tk.Frame):
 
         days_area.pack(fill='x', expand=True, padx=(0, 20))
 
-        frame = VerticalScrolledFrame(sch)
-        frame.pack()
+        vs_frame = VerticalScrolledFrame(schedule_frame)
+        vs_frame.pack()
 
-        schedule_area = tk.Frame(frame.interior)
+        schedule_area = tk.Frame(vs_frame.interior)
 
         today = datetime.datetime.today()
         monthrange = calendar.monthrange(today.year, today.month)
@@ -94,7 +101,8 @@ class ScheduleFrame(tk.Frame):
             days_area.grid(row=row_num, column=column_num, padx=2, pady=2, sticky='n')
             days_area.grid_propagate(1)
 
-            edit_button = EditDayButton(days_area, text='Edit')
+            edit_button = tk.Button(days_area, text='Edit',
+                                    command=lambda: DayWindow(parent=self, database=self.database))
             edit_button.place(x=115)
 
             days_area.columnconfigure(0, weight=1)
@@ -107,50 +115,55 @@ class ScheduleFrame(tk.Frame):
         schedule_area.pack()
 
 
-class EditDayButton(tk.Button):
-    def __init__(self, *args, **kwargs):
+class DayWindow(tk.Toplevel):
+    def __init__(self, parent=None, database=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.configure(command=self.create_window)
 
-        self.edit_window = None
+        self.parent = parent
+        self.database = database
+        self.label_names = ['Time', 'Classroom', 'Address', 'Subject', 'Teacher', 'Type']
+        self.entities = ['Classroom', 'Subject', 'Teacher']
+        self.day_frames = []
+        self.entries = []
 
-    def create_window(self):
-        self.edit_window = tk.Toplevel()
+        self.configure_widget()
 
-        tk.Label(self.edit_window, text='Classroom').grid(row=0, column=0)
-        tk.Label(self.edit_window, text='Subject').grid(row=1, column=0)
-        tk.Label(self.edit_window, text='Type').grid(row=2, column=0)
-        tk.Label(self.edit_window, text='Teacher').grid(row=3, column=0)
+        for slave in self.grid_slaves():
+            if slave.grid_info()['column'] == 2:
+                print(slave, slave.grid_info()['row'])
 
-        name = tk.Entry(self.edit_window, height=0, width=10)
-        name.place(x=50, y=10)
+    def configure_widget(self):
+        from view.database import OptionMenuRelation
 
-        ok_button = tk.Button(self.edit_window, text='OK', command=self._send_info(name))
-        ok_button.place(x=25, y=25)
+        day_frame = tk.Frame(self)
+        day_frame.grid(row=0, column=0)
 
-    def _send_info(self, name):
-        global info
-        name_val = name.get('1.0', 'end')
+        last_row = 0
+        for row, name in enumerate(self.label_names):
+            tk.Label(day_frame, text=name).grid(row=row, column=0)
 
-        info = name_val
-        print(info)
+            entry = tk.Entry(day_frame)
+            entry.grid(row=row, column=1)
+            self.entries.append(entry)
 
-        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
-        subject_frame.grid(row=1, column=0)
+            if name in self.entities:
+                drop_down = OptionMenuRelation(parent=day_frame, folder='entity', entity=name.lower(),
+                                               database=self.database, row=row, column=2)
+                id_name_map = drop_down.id_name_map
+                menu = drop_down.menu
 
-        name_label_schedule = tk.Label(self.master, text=info)
-        name_label_schedule.grid(row=1, column=0)
+                for option in id_name_map:
+                    menu.add_command(label=id_name_map.get(option),
+                                     command=lambda value=id_name_map.get(option),
+                                                    entry_=entry: set_entry_text(entry_, value))
+            last_row = row
 
-        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
-        subject_frame.grid(row=2, column=0)
+        tk.Button(day_frame, text='OK', command=lambda: self.create_classes()).grid(row=last_row + 1, column=0)
 
-        name_label_schedule = tk.Label(self.master, text=info)
-        name_label_schedule.grid(row=2, column=0)
+    def create_classes(self):
+        classroom = self.grid_slaves(row=0, column=0)
+        subject = self.grid_slaves(row=1, column=0)
+        type_ = self.grid_slaves(row=2, column=0)
+        teacher = self.grid_slaves(row=3, column=0)
 
-        subject_frame = tk.LabelFrame(self.master, width=150, height=100)
-        subject_frame.grid(row=3, column=0)
-
-        name_label_schedule = tk.Label(self.master, text=info)
-        name_label_schedule.grid(row=3, column=0)
-
-        self.edit_window.destroy()
+        self.destroy()

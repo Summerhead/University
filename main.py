@@ -11,13 +11,13 @@ class CreateRoot(tk.Tk):
 
         self._frame = None
 
-        self.switch_frame(DBFrame)
+        self.switch_frame(ScheduleFrame)
 
     def switch_frame(self, frame_class):
-        new_frame = frame_class(self)
-
         if self._frame is not None:
             self._frame.destroy()
+
+        new_frame = frame_class(self)
 
         self._frame = new_frame
         self._frame.pack(expand=True, fill='both')
