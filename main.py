@@ -21,6 +21,7 @@ class CreateRoot(tk.Tk):
 
         self._frame = new_frame
         self._frame.pack(expand=True, fill='both')
+        # self._frame.grid(row=0, column=0)
 
         if frame_class == HomeFrame:
             self._frame.winfo_toplevel().geometry('900x500')

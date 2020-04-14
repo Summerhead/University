@@ -76,14 +76,15 @@ class ScheduleFrame(tk.Frame):
         schedule_frame.grid(row=0, column=1, padx=10, pady=10)
         schedule_frame.rowconfigure(1, weight=1)
 
-        days_area = tk.LabelFrame(schedule_frame)
+        day_names_area = tk.LabelFrame(schedule_frame)
 
         day_names = calendar.day_name
-        for num in range(len(day_names)):
-            tk.Label(days_area, text=day_names[num]).grid(row=0, column=num)
-            days_area.grid_columnconfigure(num, weight=1, uniform='fred')
 
-        days_area.pack(fill='x', expand=True, padx=(0, 20))
+        for num, day_name in enumerate(day_names):
+            tk.Label(day_names_area, text=day_name).grid(row=0, column=num)
+            day_names_area.grid_columnconfigure(num, weight=1, uniform='fred')
+
+        day_names_area.pack(fill='x', expand=True, padx=(0, 20))
 
         vs_frame = VerticalScrolledFrame(schedule_frame)
         vs_frame.pack()
@@ -104,25 +105,31 @@ class ScheduleFrame(tk.Frame):
         row_num = 1
         column_num = first_day
 
-        for item in self.database.database:
-            attrs = self.database.database[item].__dict__
-            for attr in attrs:
-                print(self.database.database[item].__dict__[attr])
-
         for num, date in enumerate(date_list):
-            # if self.database.database[item].__dict__['date'] == date:
-            #     print('found one')
+            day_area = tk.LabelFrame(schedule_area, text=num + 1, width=150, height=150)
+            day_area.grid(row=row_num, column=column_num, padx=2, pady=2, sticky='n')
+            day_area.grid_columnconfigure(index=0, minsize=150, weight=1)
+            day_area.grid_rowconfigure(index=0, minsize=150, weight=1)
 
-            days_area = tk.LabelFrame(schedule_area, text=num + 1, width=150, height=150)
-            days_area.grid(row=row_num, column=column_num, padx=2, pady=2, sticky='n')
-            days_area.grid_propagate(1)
+            for item in self.database.database:
+                if self.database.database[item].__dict__['date'] == date:
+                    school_class = tk.LabelFrame(day_area, text='School class')
+                    school_class.grid(row=0, column=0, sticky='we')
+                    school_class.grid_columnconfigure(index=0, weight=1)
+                    school_class.grid_rowconfigure(index=1, weight=1)
 
-            edit_button = tk.Button(days_area, text='Edit',
+                    attrs = self.database.database[item].__dict__
+
+                    for num2, attr in enumerate(attrs):
+                        tk.Label(school_class,
+                                 text=self.database.database[item].__dict__[attr]).grid(row=num2, column=0)
+
+            edit_button = tk.Button(day_area, text='Edit',
                                     command=lambda date_=date: DayWindow(parent=self, database=self.database,
                                                                          date=date_))
-            edit_button.place(x=115)
+            edit_button.place(x=115, y=-8)
 
-            days_area.columnconfigure(0, weight=1)
+            day_area.columnconfigure(0, weight=1)
 
             column_num += 1
             if column_num == 7:
@@ -195,5 +202,7 @@ class DayWindow(tk.Toplevel):
 
         self.database.database[new_entity_id] = new_entity
         self.database.save_database('entity', 'school_class')
+
+        self.configure_widget()
 
         self.destroy()
