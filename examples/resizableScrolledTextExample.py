@@ -18,7 +18,7 @@ if __name__ == '__main__':
     btn_Folder.grid(row=0, column=2, padx=(10), pady=10)
 
     # Group1 Frame ----------------------------------------------------
-    group1 = LabelFrame(master_window, text="Text Box", padx=5, pady=5)
+    group1 = LabelFrame(master_window, text='Text Box', padx=5, pady=5)
     group1.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E + W + N + S)
 
     master_window.columnconfigure(0, weight=1)

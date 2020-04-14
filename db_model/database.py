@@ -15,7 +15,7 @@ class Database(object):
 
         except FileNotFoundError:
             with open(f'db_pickle/{folder}/{file_name}.pkl', 'wb'):
-                print(f"Creating pickle file \"db_pickle/{folder}/{file_name}.pkl\"")
+                print(f'Creating pickle file \"db_pickle/{folder}/{file_name}.pkl\"')
             self.database = {}
             self.biggest_id = 0
 
@@ -26,6 +26,8 @@ class Database(object):
     def save_database(self, folder, file_name):
         with open(f'db_pickle/{folder}/{file_name}.pkl', 'wb') as f:
             pickle.dump(self.database, f)
+
+        self.update_biggest_id()
 
     def update_biggest_id(self):
         keys = list(self.database.keys())

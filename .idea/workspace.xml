@@ -3,8 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/pair.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_model/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/building.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/group.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/teacher_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/teacher_subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/class.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/school_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/day.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/fizedSizeFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/fizedSizeFrame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/resizableCanvasExample.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/resizableCanvasExample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/resizableScrolledTextExample.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/resizableScrolledTextExample.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
@@ -29,6 +38,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab1" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -208,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586715935175</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="worked on a logic for creating classes for a day in the schedule">
+      <created>1586800802766</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1586800802766</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -237,6 +254,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed database bugs hopefully" />
     <MESSAGE value="fixed database bugs hopefully... again" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed database bugs hopefully... again" />
+    <MESSAGE value="worked on a logic for creating classes for a day in the schedule" />
+    <option name="LAST_COMMIT_MESSAGE" value="worked on a logic for creating classes for a day in the schedule" />
   </component>
 </project>
