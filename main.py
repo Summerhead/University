@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from view.database import DBFrame
+from view.database import DatabaseFrame
 from view.home import HomeFrame
 from view.schedule import ScheduleFrame
 
@@ -21,13 +21,12 @@ class CreateRoot(tk.Tk):
 
         self._frame = new_frame
         self._frame.pack(expand=True, fill='both')
-        # self._frame.grid(row=0, column=0)
 
         if frame_class == HomeFrame:
             self._frame.winfo_toplevel().geometry('900x500')
         elif frame_class == ScheduleFrame:
             self._frame.winfo_toplevel().geometry('')
-        elif frame_class == DBFrame:
+        elif frame_class == DatabaseFrame:
             self._frame.winfo_toplevel().geometry('')
 
 

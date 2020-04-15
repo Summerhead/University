@@ -3,7 +3,7 @@ import datetime
 import tkinter as tk
 
 from entity.entity.school_class import SchoolClass
-from view.database import set_entry_text, multi_functions
+from view.database import set_entry_text, multi_functions, EntityWindow
 
 
 class VerticalScrolledFrame(tk.LabelFrame):
@@ -59,7 +59,12 @@ class ScheduleFrame(tk.Frame):
         super().__init__(*args, **kwargs)
 
         self.database = Database()
+        self.schedule_frame = None
+        self.schedule_area = None
         self.database.open_database('entity', 'school_class')
+        self.entities = ['Classroom', 'Subject', 'Teacher']
+        self.today = datetime.date.today()
+        self.date_list = None
 
         self.rowconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
@@ -70,13 +75,27 @@ class ScheduleFrame(tk.Frame):
         from view.home import HomeFrame
 
         back = tk.Button(self, text='Back', command=lambda: self.master.switch_frame(HomeFrame))
-        back.grid(row=0, column=0, padx=40, pady=20, sticky='n')
+        back.grid(row=0, column=0, padx=20, pady=20, ipadx=20, sticky='n')
 
-        schedule_frame = tk.LabelFrame(self, text='Schedule')
-        schedule_frame.grid(row=0, column=1, padx=10, pady=10)
-        schedule_frame.rowconfigure(1, weight=1)
+        self.schedule_frame = tk.LabelFrame(self, text='Schedule')
+        self.schedule_frame.grid(row=0, column=1, padx=10, pady=10)
+        self.schedule_frame.rowconfigure(1, weight=1)
 
-        day_names_area = tk.LabelFrame(schedule_frame)
+        self.configure_headers()
+
+        vs_frame = VerticalScrolledFrame(self.schedule_frame)
+        vs_frame.pack()
+
+        self.schedule_area = tk.Frame(vs_frame.interior)
+
+        row = 0
+        column = self.configure_dates()
+        main_database = self.database.database
+
+        self.configure_table(row, column, main_database)
+
+    def configure_headers(self, ):
+        day_names_area = tk.Frame(self.schedule_frame)
 
         day_names = calendar.day_name
 
@@ -86,123 +105,154 @@ class ScheduleFrame(tk.Frame):
 
         day_names_area.pack(fill='x', expand=True, padx=(0, 20))
 
-        vs_frame = VerticalScrolledFrame(schedule_frame)
-        vs_frame.pack()
-
-        schedule_area = tk.Frame(vs_frame.interior)
-
-        today = datetime.date.today()
-
+    def configure_dates(self):
         day_of_month = datetime.date.today().day
-        first_day_date = today - datetime.timedelta(days=day_of_month - 1)
+        first_day_date = self.today - datetime.timedelta(days=day_of_month - 1)
 
-        monthrange = calendar.monthrange(today.year, today.month)
+        monthrange = calendar.monthrange(self.today.year, self.today.month)
         first_day = monthrange[0]
         num_of_days = monthrange[1]
 
-        date_list = [first_day_date + datetime.timedelta(days=day) for day in range(num_of_days)]
+        self.date_list = [first_day_date + datetime.timedelta(days=day) for day in range(num_of_days)]
 
-        row_num = 1
-        column_num = first_day
+        return first_day
 
-        for num, date in enumerate(date_list):
-            day_area = tk.LabelFrame(schedule_area, text=num + 1, width=150, height=150)
-            day_area.grid(row=row_num, column=column_num, padx=2, pady=2, sticky='n')
+    def configure_table(self, day_area_row, day_area_column, main_database):
+        for date_list_num, date in enumerate(self.date_list):
+            day_area = tk.LabelFrame(self.schedule_area, text=date_list_num + 1, width=150, height=150)
+            day_area.grid(row=day_area_row, column=day_area_column, padx=2, pady=2, sticky='n')
             day_area.grid_columnconfigure(index=0, minsize=150, weight=1)
             day_area.grid_rowconfigure(index=0, minsize=150, weight=1)
 
-            for item in self.database.database:
-                if self.database.database[item].__dict__['date'] == date:
-                    school_class = tk.LabelFrame(day_area, text='School class')
-                    school_class.grid(row=0, column=0, sticky='we')
-                    school_class.grid_columnconfigure(index=0, weight=1)
-                    school_class.grid_rowconfigure(index=1, weight=1)
+            for item in main_database:
+                attributes = main_database[item].__dict__
 
-                    attrs = self.database.database[item].__dict__
+                if attributes['date'] == date:
+                    school_class_row = 0
+                    text = 1
 
-                    for num2, attr in enumerate(attrs):
-                        tk.Label(school_class,
-                                 text=self.database.database[item].__dict__[attr]).grid(row=num2, column=0)
+                    if attributes['time'] == '10:10':
+                        school_class_row = 1
+                        text = 2
+
+                    bg = 'white'
+                    if attributes['type_'] == 'лекция':
+                        bg = 'white'
+                    elif attributes['type_'] == 'практика':
+                        bg = 'black'
+
+                    school_class = tk.LabelFrame(day_area, text=text, bg=bg)
+                    school_class.grid(row=school_class_row, column=0, sticky='we')
+                    school_class.columnconfigure(index=0, weight=1)
+
+                    for attributes_num, attribute_name in enumerate(attributes):
+                        if attribute_name != '_id' and attribute_name != 'date':
+                            text = attributes[attribute_name]
+
+                            if attribute_name[0].upper() + attribute_name[1:] in self.entities:
+                                desired_attribute_name = 'name'
+
+                                if attribute_name == 'classroom':
+                                    desired_attribute_name = 'number'
+
+                                self.database.open_database('entity', attribute_name)
+                                related_database = self.database.database
+
+                                for item2 in related_database:
+                                    if related_database[item2].__dict__['_id'] == attributes[attribute_name]:
+                                        text = related_database[item2].__dict__[desired_attribute_name]
+
+                            tk.Label(school_class, text=text, wraplength=150,
+                                     justify='left', bg=bg).grid(row=attributes_num, column=0, sticky='w')
 
             edit_button = tk.Button(day_area, text='Edit',
-                                    command=lambda date_=date: DayWindow(parent=self, database=self.database,
-                                                                         date=date_))
+                                    command=lambda date_=date:
+                                    DayEntityWindow(calling_frame=self, database=self.database, date=date_,
+                                                    entity=main_database[item]).configure_widget(fill=True))
             edit_button.place(x=115, y=-8)
 
-            day_area.columnconfigure(0, weight=1)
+            day_area_column += 1
+            if day_area_column == 7:
+                day_area_column = 0
+                day_area_row += 1
 
-            column_num += 1
-            if column_num == 7:
-                column_num = 0
-                row_num += 1
-
-        schedule_area.pack()
+        self.schedule_area.pack()
 
 
-class DayWindow(tk.Toplevel):
-    def __init__(self, parent=None, database=None, date=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class DayWindow(tk.Toplevel):
+#     def __init__(self, parent=None, database=None, date=None, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#
+#         self.parent = parent
+#         self.database = database
+#         self.date = date
+#         self.label_names = ['Time', 'Classroom', 'Subject', 'Teacher', 'Type']
+#         self.entities = ['Classroom', 'Subject', 'Teacher']
+#         self.day_frames = []
+#         self.entries = []
+#         self.entity_id_dict = {}
+#         self.day_frame = None
+#
+#         self.configure_widget()
+#
+#     def configure_widget(self):
+#         from view.database import OptionMenuRelation
+#
+#         self.day_frame = tk.Frame(self)
+#         self.day_frame.grid(row=0, column=0)
+#
+#         last_row = 0
+#         for row, label_name in enumerate(self.label_names):
+#             tk.Label(self.day_frame, text=label_name).grid(row=row, column=0)
+#
+#             entry = tk.Entry(self.day_frame)
+#             entry.grid(row=row, column=1)
+#             self.entries.append(entry)
+#
+#             if label_name in self.entities:
+#                 drop_down = OptionMenuRelation(parent=self.day_frame, folder='entity', entity=label_name.lower(),
+#                                                database=self.database, row=row, column=2)
+#                 id_name_map = drop_down.id_name_map
+#                 menu = drop_down.menu
+#
+#                 for option in id_name_map:
+#                     menu.add_command(label=id_name_map.get(option),
+#                                      command=lambda option_=option, value=id_name_map.get(option),
+#                                                     label_name_=label_name, entry_=entry:
+#                                      multi_functions(set_entry_text(entry_, value),
+#                                                      self.put_in_entity_id_dict(label_name_, option_)))
+#             last_row = row
+#
+#         tk.Button(self.day_frame, text='OK', command=lambda: self.create_classes()).grid(row=last_row + 1, column=0)
+#
+#     def put_in_entity_id_dict(self, label_name, option):
+#         self.entity_id_dict[label_name] = option
+#
+#     def create_classes(self):
+#         self.database.open_database('entity', 'school_class')
+#         new_entity_id = self.database.biggest_id + 1
+#
+#         time = self.day_frame.grid_slaves(row=0, column=1)[0].get()
+#         classroom = self.entity_id_dict.get('Classroom')
+#         subject = self.entity_id_dict.get('Subject')
+#         teacher = self.entity_id_dict.get('Teacher')
+#         type_ = self.day_frame.grid_slaves(row=4, column=1)[0].get()
+#
+#         new_entity = SchoolClass(new_entity_id, self.date, time, classroom, subject, teacher, type_)
+#
+#         self.database.database[new_entity_id] = new_entity
+#         self.database.save_database('entity', 'school_class')
+#
+#         self.parent.configure_widget()
+#
+#         self.destroy()
 
-        self.parent = parent
-        self.database = database
+class DayEntityWindow(EntityWindow):
+    def __init__(self, calling_frame=None, chosen_option='School_classes', database=None, entity=None, date=None):
+        super().__init__(calling_frame=calling_frame, chosen_option=chosen_option, database=database, entity=entity)
+
         self.date = date
-        self.label_names = ['Time', 'Classroom', 'Subject', 'Teacher', 'Type']
-        self.entities = ['Classroom', 'Subject', 'Teacher']
         self.day_frames = []
         self.entries = []
         self.entity_id_dict = {}
         self.day_frame = None
-
-        self.configure_widget()
-
-    def configure_widget(self):
-        from view.database import OptionMenuRelation
-
-        self.day_frame = tk.Frame(self)
-        self.day_frame.grid(row=0, column=0)
-
-        last_row = 0
-        for row, label_name in enumerate(self.label_names):
-            tk.Label(self.day_frame, text=label_name).grid(row=row, column=0)
-
-            entry = tk.Entry(self.day_frame)
-            entry.grid(row=row, column=1)
-            self.entries.append(entry)
-
-            if label_name in self.entities:
-                drop_down = OptionMenuRelation(parent=self.day_frame, folder='entity', entity=label_name.lower(),
-                                               database=self.database, row=row, column=2)
-                id_name_map = drop_down.id_name_map
-                menu = drop_down.menu
-
-                for option in id_name_map:
-                    menu.add_command(label=id_name_map.get(option),
-                                     command=lambda option_=option, value=id_name_map.get(option),
-                                                    label_name_=label_name, entry_=entry:
-                                     multi_functions(set_entry_text(entry_, value),
-                                                     self.put_in_entity_id_dict(label_name_, option_)))
-            last_row = row
-
-        tk.Button(self.day_frame, text='OK', command=lambda: self.create_classes()).grid(row=last_row + 1, column=0)
-
-    def put_in_entity_id_dict(self, label_name, option):
-        self.entity_id_dict[label_name] = option
-
-    def create_classes(self):
-        self.database.open_database('entity', 'school_class')
-        new_entity_id = self.database.biggest_id + 1
-
-        time = self.day_frame.grid_slaves(row=0, column=1)[0].get()
-        classroom = self.entity_id_dict.get('Classroom')
-        subject = self.entity_id_dict.get('Subject')
-        teacher = self.entity_id_dict.get('Teacher')
-        type_ = self.day_frame.grid_slaves(row=4, column=1)[0].get()
-
-        new_entity = SchoolClass(new_entity_id, self.date, time, classroom, subject, teacher, type_)
-
-        self.database.database[new_entity_id] = new_entity
-        self.database.save_database('entity', 'school_class')
-
-        self.configure_widget()
-
-        self.destroy()
