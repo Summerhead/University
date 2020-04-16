@@ -37,6 +37,9 @@ class Database(object):
         except IndexError:
             self.biggest_id = 0
 
+    def increment_biggest_id(self):
+        self.biggest_id += 1
+
     def clear_database(self, folder, file_name):
         self.database = {}
         self.biggest_id = 0

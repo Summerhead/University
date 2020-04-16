@@ -135,8 +135,8 @@ class TableFrame(tk.Frame):
             for row_index, item in enumerate(db1):
                 tk.Button(table_area, text='Edit',
                           command=lambda entity=db1[item]: multi_functions(
-                              EntityWindow(self.parent, self.chosen_option, self.database, entity=entity)
-                                  .configure_widget(fill=True))).grid(row=row_index + 1, column=0)
+                              EntityWindow(self, self.chosen_option, self.database, entities=[entity])
+                                  .configure_widget())).grid(row=row_index + 1, column=0)
 
                 attributes = db1[item].__dict__
                 for column_index, attribute in enumerate(attributes):
@@ -157,14 +157,19 @@ class TableFrame(tk.Frame):
 
 
 class EntityWindow(tk.Toplevel):
-    def __init__(self, calling_frame=None, chosen_option=None, database=None, entity=None):
+    def __init__(self, calling_frame=None, chosen_option=None, database=None, entities=None):
         super().__init__()
 
         self.calling_frame = calling_frame
         self.chosen_option = chosen_option
         self.database = database
-        self.entity = entity
-        self.main_frame = None
+        if entities is None:
+            entities = []
+        self.entities = entities
+        self.main_frame = tk.Frame(self)
+        self.main_frame.grid(row=0, column=0)
+        self.entities_frame = tk.Frame(self.main_frame)
+        self.entities_frame.grid(row=0, column=0)
         self.relation_frame = None
         self.label_names = []
         self.entity_id_dict = {}
@@ -172,169 +177,205 @@ class EntityWindow(tk.Toplevel):
         self.change = None
         self.entries = []
 
-    def configure_widget(self, fill=False):
-        self.configure_content(fill=fill)
+    def configure_widget(self):
+        self.configure_content()
 
-    def configure_main_frame(self):
-        self.main_frame = tk.Frame(self)
-        self.main_frame.grid(row=0, column=0)
-
-        row = 0
-        for attribute in OPTION_ENTITY_DICT.get(self.chosen_option)().__dict__:
-            if attribute != '_id':
-                label_name = attribute.replace('_', ' ').strip()
-                label_name = label_name[0].upper() + label_name[1:]
-
-                tk.Label(self.main_frame, text=label_name).grid(row=row, column=0)
-
-                entry = tk.Entry(self.main_frame)
-                entry.grid(row=row, column=1)
-                self.entries.append(entry)
-
-                if label_name in FOREIGN_KEYS:
-                    drop_down = OptionMenuRelation(self.main_frame, 'entity', label_name.lower(), self.database,
-                                                   row=row, column=2)
-
-                    id_name_map = drop_down.id_name_map
-                    menu = drop_down.menu
-
-                    for option in id_name_map:
-                        menu.add_command(label=id_name_map.get(option),
-                                         command=lambda option_=option, value=id_name_map.get(option),
-                                                        label_name_=label_name, entry_=entry: multi_functions(
-                                             set_entry_text(entry_, value),
-                                             self.put_in_entity_id_dict(label_name_, option_)))
-                row = row + 1
-
-        return row
-
-    def configure_content(self, fill):
-        last_row = self.configure_main_frame() + 1
-        self.fill_frame_configure(fill)
-        self.add_send_button(last_row)
+    def configure_content(self):
+        entities = len(self.entities)
+        if entities == 0:
+            entities = 1
+        last_row = self.configure_main_frame(row=0, entities=entities)
+        self.fill_frame_configure()
+        self.add_send_button(last_row + 1)
 
         if self.chosen_option in ENTITIES_CREATE_RELATION_MAP:
             self.add_relation_frame()
 
-    def fill_frame_configure(self, fill):
-        if fill:
-            self.fill_frame(self.entries, self.entity)
-            self.new_entity_id = self.entity._id
+    def configure_main_frame(self, row, entities):
+        if self.main_frame is not None:
+            self.main_frame.destroy()
+
+        if self.entities_frame is not None:
+            self.entities_frame.destroy()
+
+        if len(self.entries) > 0:
+            self.entries = []
+
+        self.main_frame = tk.Frame(self)
+        self.main_frame.grid(row=0, column=0)
+
+        self.entities_frame = tk.Frame(self.main_frame)
+        self.entities_frame.grid(row=0, column=0)
+
+        for entity_row in range(entities):
+            entity_frame = tk.LabelFrame(self.entities_frame)
+            entity_frame.grid(row=entity_row, column=0, pady=10)
+            print(entity_row)
+
+            entity_entries = []
+
+            attribute_row = 0
+            for attribute in OPTION_ENTITY_DICT.get(self.chosen_option)().__dict__:
+                if attribute != '_id' and attribute != 'date':
+                    label_name = attribute.replace('_', ' ').strip()
+                    label_name = label_name[0].upper() + label_name[1:]
+
+                    tk.Label(entity_frame, text=label_name).grid(row=attribute_row, column=0)
+
+                    entry = tk.Entry(entity_frame)
+                    entry.grid(row=attribute_row, column=1)
+                    entity_entries.append(entry)
+
+                    if label_name in FOREIGN_KEYS:
+                        drop_down = OptionMenuRelation(entity_frame, 'entity', label_name.lower(), self.database,
+                                                       row=attribute_row, column=2)
+                        id_name_map = drop_down.id_name_map
+                        menu = drop_down.menu
+
+                        for option in id_name_map:
+                            menu.add_command(label=id_name_map.get(option),
+                                             command=lambda option_=option, value=id_name_map.get(option),
+                                                            label_name_=label_name, entry_=entry: multi_functions(
+                                                 set_entry_text(entry_, value),
+                                                 self.put_in_entity_id_dict(label_name_, option_)))
+                    attribute_row += 1
+
+            self.entries.append(entity_entries)
+            row = entity_row
+
+        return row
+
+    def fill_frame_configure(self):
+        if len(self.entities) > 0:
+            self.fill_frame()
+            self.new_entity_id = [entity._id for entity in self.entities]
             self.change = True
         else:
-            self.new_entity_id = self.database.biggest_id
+            self.new_entity_id = [self.database.biggest_id]
             self.change = False
 
     def add_send_button(self, row):
         tk.Button(self.main_frame, text='OK', command=lambda: multi_functions(
-            self.create_new_entity(self.chosen_option, self.change))).grid(row=row + 1, column=0)
+            self.create_new_entity(self.chosen_option, self.change))).grid(row=row, column=0)
 
     def add_relation_frame(self):
         relatable_entities = ENTITIES_CREATE_RELATION_MAP.get(self.chosen_option)
-        self.relation_frame = RelationFrame(self, self.entity, relatable_entities, self.database, self.chosen_option)
+        self.relation_frame = RelationFrame(self, self.entities, relatable_entities, self.database,
+                                            self.chosen_option)
         self.relation_frame.configure_widget()
         self.relation_frame.grid(row=1, column=0)
 
     def put_in_entity_id_dict(self, label_name, option):
         self.entity_id_dict[label_name] = option
 
-    def fill_frame(self, entries, entity):
-        attributes = entity.__dict__
-        needed_attributes = [attr for attr in attributes if attr != '_id' and attr != 'date']
+    def fill_frame(self):
+        for entity_entries, entity in zip(self.entries, self.entities):
+            attributes = entity.__dict__
+            needed_attributes = [attr for attr in attributes if attr != '_id' and attr != 'date']
 
-        for entry, attribute in zip(entries, needed_attributes):
-            if attribute[0].upper() + attribute[1:] in FOREIGN_KEYS:
-                self.database.open_database('entity', attribute)
+            for entry, attribute in zip(entity_entries, needed_attributes):
+                if attribute[0].upper() + attribute[1:] in FOREIGN_KEYS:
+                    self.database.open_database('entity', attribute)
 
-                for item in self.database.database:
-                    if self.database.database[item].__dict__['_id'] == attributes[attribute]:
-                        desired_attribute_name = 'name'
+                    relatable_entity_database = self.database.database
+                    for item in relatable_entity_database:
+                        if relatable_entity_database[item].__dict__['_id'] == attributes[attribute]:
+                            desired_attribute_name = 'name'
 
-                        if attribute == 'classroom':
-                            desired_attribute_name = 'number'
+                            if attribute == 'classroom':
+                                desired_attribute_name = 'number'
 
-                        entry.insert(0, self.database.database[item].__dict__[desired_attribute_name])
+                            entry.insert(0, relatable_entity_database[item].__dict__[desired_attribute_name])
+                            self.put_in_entity_id_dict(attribute[0].upper() + attribute[1:],
+                                                       relatable_entity_database[item].__dict__['_id'])
 
-            else:
-                entry.insert(0, attributes[attribute])
+                else:
+                    entry.insert(0, attributes[attribute])
 
     def create_new_entity(self, chosen_option, change):
-        self.database.open_database('entity', chosen_option[:-1].lower())
+        option = chosen_option[:-1].lower()
+        if chosen_option == 'School_classes':
+            option = chosen_option[:-2].lower()
+
+        self.database.open_database('entity', option)
 
         if not change:
-            self.new_entity_id = self.database.biggest_id + 1
+            self.new_entity_id = [self.database.biggest_id + 1]
 
         new_entity = None
 
-        if chosen_option == 'Colleges':
-            name = self.main_frame.grid_slaves(row=0, column=1)[0].get()
+        for num, entity_frame in enumerate(self.entities_frame.grid_slaves()):
 
-            new_entity = College(_id=self.new_entity_id, name=name)
+            if chosen_option == 'Colleges':
+                name = entity_frame.grid_slaves(row=0, column=1)[0].get()
 
-        if chosen_option == 'Specializations':
-            name = self.main_frame.grid_slaves(row=0, column=1)[0].get()
+                new_entity = College(_id=self.new_entity_id[num], name=name)
 
-            new_entity = Specialization(_id=self.new_entity_id, name=name)
+            if chosen_option == 'Specializations':
+                name = entity_frame.grid_slaves(row=0, column=1)[0].get()
 
-        if chosen_option == 'Groups':
-            number = self.main_frame.grid_slaves(row=0, column=1)[0].get()
-            name = self.main_frame.grid_slaves(row=1, column=1)[0].get()
-            specialization = self.entity_id_dict.get('Specialization')
+                new_entity = Specialization(_id=self.new_entity_id[num], name=name)
 
-            new_entity = Group(_id=self.new_entity_id, number=number, name=name, specialization=specialization)
+            if chosen_option == 'Groups':
+                number = entity_frame.grid_slaves(row=0, column=1)[0].get()
+                name = entity_frame.grid_slaves(row=1, column=1)[0].get()
+                specialization = self.entity_id_dict.get('Specialization')
 
-        if chosen_option == 'Buildings':
-            name = self.main_frame.grid_slaves(row=0, column=1)[0].get()
-            address = self.main_frame.grid_slaves(row=1, column=1)[0].get()
-            college = self.entity_id_dict.get('College')
+                new_entity = Group(_id=self.new_entity_id[num], number=number, name=name, specialization=specialization)
 
-            new_entity = Building(_id=self.new_entity_id, name=name, address=address, college=college)
+            if chosen_option == 'Buildings':
+                name = entity_frame.grid_slaves(row=0, column=1)[0].get()
+                address = entity_frame.grid_slaves(row=1, column=1)[0].get()
+                college = self.entity_id_dict.get('College')
 
-        if chosen_option == 'Classrooms':
-            number = self.main_frame.grid_slaves(row=0, column=1)[0].get()
-            building = self.entity_id_dict.get('Building')
+                new_entity = Building(_id=self.new_entity_id[num], name=name, address=address, college=college)
 
-            new_entity = Classroom(_id=self.new_entity_id, number=number, building=building)
+            if chosen_option == 'Classrooms':
+                number = entity_frame.grid_slaves(row=0, column=1)[0].get()
+                building = self.entity_id_dict.get('Building')
 
-        if chosen_option == 'Subjects':
-            name = self.main_frame.grid_slaves(row=0, column=1)[0].get()
+                new_entity = Classroom(_id=self.new_entity_id[num], number=number, building=building)
 
-            new_entity = Subject(_id=self.new_entity_id, name=name)
+            if chosen_option == 'Subjects':
+                name = entity_frame.grid_slaves(row=0, column=1)[0].get()
 
-        if chosen_option == 'Teachers':
-            name = self.main_frame.grid_slaves(row=0, column=1)[0].get()
-            profession = self.main_frame.grid_slaves(row=1, column=1)[0].get()
+                new_entity = Subject(_id=self.new_entity_id[num], name=name)
 
-            new_entity = Teacher(_id=self.new_entity_id, name=name, profession=profession)
+            if chosen_option == 'Teachers':
+                name = entity_frame.grid_slaves(row=0, column=1)[0].get()
+                profession = entity_frame.grid_slaves(row=1, column=1)[0].get()
 
-        if chosen_option == 'School_class':
-            time = self.main_frame.grid_slaves(row=0, column=1)[0].get()
-            classroom = self.entity_id_dict.get('Classroom')
-            subject = self.entity_id_dict.get('Subject')
-            teacher = self.entity_id_dict.get('Teacher')
-            type_ = self.main_frame.grid_slaves(row=4, column=1)[0].get()
+                new_entity = Teacher(_id=self.new_entity_id[num], name=name, profession=profession)
 
-            new_entity = SchoolClass(self.new_entity_id, self.date, time, classroom, subject, teacher, type_)
+            if chosen_option == 'School_classes':
+                number = entity_frame.grid_slaves(row=0, column=1)[0].get()
+                classroom = self.entity_id_dict.get('Classroom')
+                subject = self.entity_id_dict.get('Subject')
+                teacher = self.entity_id_dict.get('Teacher')
+                type_ = entity_frame.grid_slaves(row=4, column=1)[0].get()
 
+                new_entity = SchoolClass(self.new_entity_id[num], self.date, number, classroom, subject, teacher, type_)
 
+            else:
+                Exception('Error in "create_new_entity". Unknown entity name: ' + chosen_option)
+
+            if new_entity is None:
+                Exception('New entity is None')
+
+            self.database.database[self.new_entity_id[num]] = new_entity
+
+            self.database.save_database('entity', option)
+            self.database.update_biggest_id()
+
+        if chosen_option == 'School_classes':
+            self.calling_frame.configure_widget()
         else:
-            Exception('Error in "create_new_entity". Unknown entity name: ' + chosen_option)
-
-        if new_entity is None:
-            Exception('New entity is None')
-
-        self.database.database[self.new_entity_id] = new_entity
-
-        self.database.save_database('entity', chosen_option[:-1].lower())
-        self.database.update_biggest_id()
-
-        self.calling_frame.set_table(chosen_option)
+            self.calling_frame.configure_table()
 
         if self.relation_frame is not None:
             self.relation_frame.entity = new_entity
             self.relation_frame.configure_widget()
-
-            self.create_new_relation(self.new_entity_id, chosen_option)
+            self.create_new_relation(self.new_entity_id[0], chosen_option)
 
     def create_new_relation(self, new_entity_id, chosen_option):
         relation_map = {chosen_option.lower()[:-1]: new_entity_id}
@@ -372,13 +413,15 @@ class EntityWindow(tk.Toplevel):
 
 
 class RelationFrame(tk.Frame):
-    def __init__(self, parent, entity, relation_entities, database, chosen_option):
+    def __init__(self, parent, entities, relation_entities, database, chosen_option):
         super().__init__(parent)
 
-        self.entity = entity
+        self.entities = entities
         self.relation_entities = relation_entities
         self.database = database
         self.chosen_option = chosen_option[:-1].lower()
+        if chosen_option == 'School_classes':
+            self.chosen_option = chosen_option[:-2].lower()
         self.file_names = []
         self.chosen_options = {}
         self.entity_chosen_option_map = {}
@@ -394,8 +437,8 @@ class RelationFrame(tk.Frame):
             if chosen_options is None:
                 chosen_options = {}
 
-            if self.entity is not None:
-                self.filter_id_name_map(self.entity, relation_entity, chosen_options, column)
+            if len(self.entities) > 0:
+                self.filter_id_name_map(self.entities[0], relation_entity, chosen_options, column)
 
             self.entity_chosen_option_map[relation_entity] = chosen_options
 
