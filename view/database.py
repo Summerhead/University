@@ -23,10 +23,10 @@ OPTION_ENTITY_DICT = {'Colleges': College, 'Specializations': Specialization, 'G
 
 FOREIGN_KEYS = ['College', 'Specialization', 'Building', 'Classroom', 'Subject', 'Teacher']
 
-ENTITIES_CREATE_RELATION_MAP = {'Colleges': ['specialization'],
-                                'Specializations': ['subject', 'college'],
-                                'Teachers': ['subject'],
-                                'Subjects': ['specialization', 'teacher']}
+ENTITIES_CREATE_RELATION_DICT = {'Colleges': ['specialization'],
+                                 'Specializations': ['subject', 'college'],
+                                 'Teachers': ['subject'],
+                                 'Subjects': ['specialization', 'teacher']}
 
 RELATION_ENTITY_FILE_NAMES = [f[:-3] for f in listdir('entity/relation_entity/') if
                               isfile(join('entity/relation_entity/', f))]
@@ -173,7 +173,7 @@ class EntityWindow(tk.Toplevel):
         self.relation_frame = None
         self.label_names = []
         self.entity_id_dict = {}
-        self.new_entity_id = None
+        self.new_entity_id = []
         self.change = None
         self.entries = []
 
@@ -185,10 +185,11 @@ class EntityWindow(tk.Toplevel):
         if entities == 0:
             entities = 1
         last_row = self.configure_main_frame(row=0, entities=entities)
+
         self.fill_frame_configure()
         self.add_send_button(last_row + 1)
 
-        if self.chosen_option in ENTITIES_CREATE_RELATION_MAP:
+        if self.chosen_option in ENTITIES_CREATE_RELATION_DICT:
             self.add_relation_frame()
 
     def configure_main_frame(self, row, entities):
@@ -210,7 +211,6 @@ class EntityWindow(tk.Toplevel):
         for entity_row in range(entities):
             entity_frame = tk.LabelFrame(self.entities_frame)
             entity_frame.grid(row=entity_row, column=0, pady=10)
-            print(entity_row)
 
             entity_entries = []
 
@@ -243,6 +243,11 @@ class EntityWindow(tk.Toplevel):
             self.entries.append(entity_entries)
             row = entity_row
 
+        option = self.chosen_option[0].lower() + self.chosen_option[1:-1]
+        if self.chosen_option == 'School_classes':
+            option = option[:-1]
+        self.database.open_database('entity', option)
+
         return row
 
     def fill_frame_configure(self):
@@ -251,7 +256,7 @@ class EntityWindow(tk.Toplevel):
             self.new_entity_id = [entity._id for entity in self.entities]
             self.change = True
         else:
-            self.new_entity_id = [self.database.biggest_id]
+            self.new_entity_id = [self.database.biggest_id + 1]
             self.change = False
 
     def add_send_button(self, row):
@@ -259,9 +264,8 @@ class EntityWindow(tk.Toplevel):
             self.create_new_entity(self.chosen_option, self.change))).grid(row=row, column=0)
 
     def add_relation_frame(self):
-        relatable_entities = ENTITIES_CREATE_RELATION_MAP.get(self.chosen_option)
-        self.relation_frame = RelationFrame(self, self.entities, relatable_entities, self.database,
-                                            self.chosen_option)
+        relatable_entities = ENTITIES_CREATE_RELATION_DICT.get(self.chosen_option)
+        self.relation_frame = RelationFrame(self, self.entities, relatable_entities, self.database, self.chosen_option)
         self.relation_frame.configure_widget()
         self.relation_frame.grid(row=1, column=0)
 
@@ -376,6 +380,8 @@ class EntityWindow(tk.Toplevel):
             self.relation_frame.entity = new_entity
             self.relation_frame.configure_widget()
             self.create_new_relation(self.new_entity_id[0], chosen_option)
+
+        self.destroy()
 
     def create_new_relation(self, new_entity_id, chosen_option):
         relation_map = {chosen_option.lower()[:-1]: new_entity_id}

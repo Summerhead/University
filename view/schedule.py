@@ -2,8 +2,7 @@ import calendar
 import datetime
 import tkinter as tk
 
-from entity.entity.school_class import SchoolClass
-from view.database import set_entry_text, multi_functions, EntityWindow
+from view.database import multi_functions, EntityWindow
 
 BACKGROUND_COLORS = {'Лекция': 'white', 'Практика': '#ABF1FF', 'Зачет': '#EEFF97'}
 
@@ -252,28 +251,34 @@ class DayEntityWindow(EntityWindow):
         self.entries = []
         self.entity_id_dict = {}
         self.day_frame = None
-        self.number_of_entities = 0
+        self.number_of_entities = len(entities) if len(entities) > 0 else 1
+
+        # self.database.open_database('entity', 'school_class')
+        #
+        # db = self.database.database
+        # for item in db:
+        #     print('item,db[item]:', item, db[item])
+        #     attrs = db[item].__dict__
+        #     for attr in attrs:
+        #         print('attr,attrs[attr]', attr, attrs[attr])
 
     def configure_widget(self):
         super().configure_widget()
-        self.add_new_class_button(self.main_frame.grid_size()[1])
+        self.add_new_class_button(self.main_frame.grid_size()[1] - 1)
 
     def add_new_class_button(self, row):
-        # print(self.main_frame.grid_slaves(row=row - 1, column=0)[0])
-        # for i in self.main_frame.grid_slaves():
-        #     print(i.grid_info()['row'])
-        ok_button = self.main_frame.grid_slaves(row=row - 1, column=0)[0]
-        ok_button.grid(row=row, column=0)
+        ok_button = self.main_frame.grid_slaves(row=row, column=0)[0]
+        ok_button.grid(row=row + 1, column=0)
         tk.Button(self.main_frame, text='Add class',
                   command=lambda: multi_functions(self.add_class_button_clicked(),
                                                   self.configure_main_frame(row=0, entities=self.number_of_entities),
-                                                  self.fill_frame(),
+                                                  self.fill_frame(), self.add_send_button(row=self.number_of_entities),
                                                   self.database.open_database('entity', 'school_class'),
                                                   self.new_entity_id.append(
-                                                      self.database.biggest_id + self.number_of_entities + 1),
+                                                      self.new_entity_id[len(self.new_entity_id) - 1] + 1),
                                                   ok_button.destroy(),
-                                                  self.add_new_class_button(self.main_frame.grid_size()[1]))).grid(
-            row=row - 1, column=0)
+                                                  self.add_new_class_button(self.main_frame.grid_size()[1] - 1))).grid(
+            row=row, column=0)
 
     def add_class_button_clicked(self):
         self.number_of_entities += 1

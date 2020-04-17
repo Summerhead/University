@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="worked on adding school classes to schedule">
-      <change afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
+    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_model/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/college.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/college.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/school_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/school_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
@@ -123,6 +117,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="schedule" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="проект" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/view" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/view/schedule.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="sm" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="проект" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,34 +159,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="smth" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="проект" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\examples\resizing_widgets.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.schedule" />
         <item itemvalue="Python.database" />
         <item itemvalue="Python.resizing_widgets_2" />
         <item itemvalue="Python.sm" />
-        <item itemvalue="Python.smth" />
       </list>
     </recent_temporary>
   </component>
@@ -242,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586972665178</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="worked on adding school classes to schedule">
+      <created>1587057611502</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1587057611502</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -276,6 +277,7 @@
     <MESSAGE value="further work on creating data for a schedule" />
     <MESSAGE value="worked on showing school classes in the schedule" />
     <MESSAGE value="refactored schedule. almost finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored schedule. almost finished" />
+    <MESSAGE value="worked on adding school classes to schedule" />
+    <option name="LAST_COMMIT_MESSAGE" value="worked on adding school classes to schedule" />
   </component>
 </project>
