@@ -3,7 +3,30 @@
   <component name="ChangeListManager">
     <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_model/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/building.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/building.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/classroom.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/classroom.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/college.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/college.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/group.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/group.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/teacher.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/teacher_subject.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/building.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/building.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/classroom.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/classroom.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/college.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/college.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/school_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/school_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/specialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/specialization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/subject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/entity/teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/teacher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/relation_entity/college_specialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/relation_entity/college_specialization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/relation_entity/specialization_subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/relation_entity/specialization_subject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/relation_entity/teacher_subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/relation_entity/teacher_subject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
@@ -243,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587057611502</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="worked on adding multiple school classes to schedule at once">
+      <created>1587119192293</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1587119192293</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -278,6 +308,7 @@
     <MESSAGE value="worked on showing school classes in the schedule" />
     <MESSAGE value="refactored schedule. almost finished" />
     <MESSAGE value="worked on adding school classes to schedule" />
-    <option name="LAST_COMMIT_MESSAGE" value="worked on adding school classes to schedule" />
+    <MESSAGE value="worked on adding multiple school classes to schedule at once" />
+    <option name="LAST_COMMIT_MESSAGE" value="worked on adding multiple school classes to schedule at once" />
   </component>
 </project>

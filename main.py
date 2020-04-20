@@ -11,7 +11,7 @@ class CreateRoot(tk.Tk):
 
         self._frame = None
 
-        self.switch_frame(ScheduleFrame)
+        self.switch_frame(DatabaseFrame)
 
     def switch_frame(self, frame_class):
         if self._frame is not None:

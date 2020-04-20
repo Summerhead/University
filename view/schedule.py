@@ -243,8 +243,8 @@ class ScheduleFrame(tk.Frame):
 #         self.destroy()
 
 class DayEntityWindow(EntityWindow):
-    def __init__(self, calling_frame=None, chosen_option='School_classes', database=None, entities=None, date=None):
-        super().__init__(calling_frame=calling_frame, chosen_option=chosen_option, database=database, entities=entities)
+    def __init__(self, calling_frame=None, option='School classes', database=None, entities=None, date=None):
+        super().__init__(calling_frame=calling_frame, option=option, database=database, entities=entities)
 
         self.date = date
         self.day_frames = []
@@ -253,7 +253,7 @@ class DayEntityWindow(EntityWindow):
         self.day_frame = None
         self.number_of_entities = len(entities) if len(entities) > 0 else 1
 
-        # self.database.open_database('entity', 'school_class')
+        # self.database.open_database('relation_entity', 'teacher_subject')
         #
         # db = self.database.database
         # for item in db:
@@ -276,7 +276,7 @@ class DayEntityWindow(EntityWindow):
                                                   self.database.open_database('entity', 'school_class'),
                                                   self.new_entity_id.append(
                                                       self.new_entity_id[len(self.new_entity_id) - 1] + 1),
-                                                  ok_button.destroy(),
+                                                  ok_button.destroy(), print(self.new_entity_id),
                                                   self.add_new_class_button(self.main_frame.grid_size()[1] - 1))).grid(
             row=row, column=0)
 

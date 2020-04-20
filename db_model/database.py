@@ -31,10 +31,10 @@ class Database(object):
 
     def update_biggest_id(self):
         keys = list(self.database.keys())
-        keys.sort()
-        try:
+        if len(keys) > 0:
+            keys.sort()
             self.biggest_id = keys[-1]
-        except IndexError:
+        else:
             self.biggest_id = 0
 
     def increment_biggest_id(self):

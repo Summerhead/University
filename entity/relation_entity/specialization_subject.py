@@ -1,5 +1,5 @@
 class SpecializationSubject(object):
-    def __init__(self, _id=None, specialization=None, subject=None):
-        self._id = _id
+    def __init__(self, id_=None, specialization=None, subject=None):
+        self.id_ = id_
         self.specialization = specialization
         self.subject = subject
