@@ -55,7 +55,7 @@ class VerticalScrolledFrame(tk.LabelFrame):
 
 class ScheduleFrame(tk.Frame):
     def __init__(self, *args, **kwargs):
-        from db_model.database import Database
+        from database.database import Database
 
         super().__init__(*args, **kwargs)
 

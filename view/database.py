@@ -2,7 +2,7 @@ import tkinter as tk
 from os import listdir
 from os.path import isfile, join
 
-from db_model.database import Database
+from database.database import Database
 from entity.entity.building import Building
 from entity.entity.classroom import Classroom
 from entity.entity.college import College
@@ -15,12 +15,51 @@ from entity.relation_entity.college_specialization import CollegeSpecialization
 from entity.relation_entity.specialization_subject import SpecializationSubject
 from entity.relation_entity.teacher_subject import TeacherSubject
 
-OPTIONS = ['Colleges', 'Specializations', 'Groups', 'Buildings', 'Classrooms', 'Subjects', 'Teachers']
+OPTIONS = ['Colleges', 'Specializations', 'Groups', 'Buildings', 'Classrooms', 'Subjects', 'Teachers', 'ColSpec',
+           'SpecSub', 'TeachSub']
 
-OPTION_ENTITY_FILENAME_DICT = {'Colleges': (College, 'college'), 'Specializations': (Specialization, 'specialization'),
-                               'Groups': (Group, 'group'), 'Buildings': (Building, 'building'),
-                               'Classrooms': (Classroom, 'classroom'), 'Subjects': (Subject, 'subject'),
-                               'Teachers': (Teacher, 'teacher'), 'School classes': (SchoolClass, 'school_class')}
+OPTION_ENTITY_FILEPATH_DICT = {'Colleges': {'entity_name': College,
+                                            'filepath': {'folder': 'database/database_pickle/entity',
+                                                         'file_name': 'college'}},
+                               'Specializations': {'entity_name': Specialization,
+                                                   'filepath': {'folder': 'database/database_pickle/entity',
+                                                                'file_name': 'specialization'}},
+                               'Groups': {'entity_name': Group,
+                                          'filepath': {'folder': 'database/database_pickle/entity',
+                                                       'file_name': 'group'}},
+                               'Buildings': {'entity_name': Building,
+                                             'filepath': {'folder': 'database/database_pickle/entity',
+                                                          'file_name': 'building'}},
+                               'Classrooms': {'entity_name': Classroom,
+                                              'filepath': {'folder': 'database/database_pickle/entity',
+                                                           'file_name': 'classroom'}},
+                               'Subjects': {'entity_name': Subject,
+                                            'filepath': {'folder': 'database/database_pickle/entity',
+                                                         'file_name': 'subject'}},
+                               'Teachers': {'entity_name': Teacher,
+                                            'filepath': {'folder': 'database/database_pickle/entity',
+                                                         'file_name': 'teacher'}},
+                               'School classes': {'entity_name': SchoolClass,
+                                                  'filepath': {'folder': 'database/database_pickle/entity',
+                                                               'file_name': 'school_class'}},
+                               'ColSpec': {'entity_name': CollegeSpecialization,
+                                           'filepath': {'folder': 'database/database_pickle/relation_entity',
+                                                        'file_name': 'college_specialization'}},
+                               'SpecSub': {'entity_name': SpecializationSubject,
+                                           'filepath': {'folder': 'database/database_pickle/relation_entity',
+                                                        'file_name': 'specialization_subject'}},
+                               'TeachSub': {'entity_name': TeacherSubject,
+                                            'filepath': {'folder': 'database/database_pickle/relation_entity',
+                                                         'file_name': 'teacher_subject'}}}
+
+FILENAME_FOLDER_DICT = {'college': 'database/database_pickle/entity',
+                        'specialization': 'database/database_pickle/entity', 'group': 'database/database_pickle/entity',
+                        'building': 'database/database_pickle/entity', 'classroom': 'database/database_pickle/entity',
+                        'subject': 'database/database_pickle/entity', 'teacher': 'database/database_pickle/entity',
+                        'school_class': 'database/database_pickle/entity',
+                        'college_specialization': 'database/database_pickle/relation_entity',
+                        'specialization_subject': 'database/database_pickle/relation_entity',
+                        'teacher_subject': 'database/database_pickle/relation_entity'}
 
 FOREIGN_KEYS = ['college', 'specialization', 'building', 'classroom', 'subject', 'teacher']
 
@@ -30,7 +69,7 @@ ENTITIES_CREATE_RELATION_DICT = {'Colleges': ['specialization'],
                                  'Subjects': ['specialization', 'teacher']}
 
 RELATION_ENTITY_FILE_NAMES = [file_name.replace('.py', '') for file_name in listdir('entity/relation_entity/') if
-                              isfile(join('entity/relation_entity/', file_name))]
+                              isfile(join('entity/relation_entity/', file_name)) and file_name != '__init__.py']
 
 
 def multi_functions(*functions):
@@ -82,7 +121,8 @@ class DatabaseFrame(tk.Frame):
         if self.table is not None:
             self.table.grid_forget()
 
-        self.database.open_database('entity', OPTION_ENTITY_FILENAME_DICT.get(option)[1])
+        self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'],
+                                    OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name'])
         self.table = TableFrame(self, option, self.database)
         self.table.configure_widget()
         self.table.grid(row=1, column=1)
@@ -95,6 +135,31 @@ class DatabaseFrame(tk.Frame):
                                            .configure_widget())
         self.create_new_entity.grid(row=1, column=0)
 
+    def delete_entity(self, option, item):
+        file_name = OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name']
+
+        self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'], file_name)
+        del self.database.database[item]
+        self.database.save_database(FILENAME_FOLDER_DICT.get(file_name), file_name)
+
+        for relation_entity_file_name in RELATION_ENTITY_FILE_NAMES:
+            items_to_delete = []
+            if file_name in relation_entity_file_name:
+                self.database.open_database(
+                    FILENAME_FOLDER_DICT.get(relation_entity_file_name),
+                    relation_entity_file_name)
+
+                db = self.database.database
+                for item2 in db:
+                    if item == self.database.database[item2].__dict__[file_name]:
+                        items_to_delete.append(item2)
+
+                for item2 in items_to_delete:
+                    del db[item2]
+
+                self.database.save_database(FILENAME_FOLDER_DICT.get(relation_entity_file_name),
+                                            relation_entity_file_name)
+
 
 class TableFrame(tk.Frame):
     def __init__(self, parent=None, option=None, database=None):
@@ -102,7 +167,7 @@ class TableFrame(tk.Frame):
 
         self.parent = parent
         self.option = option
-        self.file_name = OPTION_ENTITY_FILENAME_DICT.get(self.option)[1]
+        self.file_name = OPTION_ENTITY_FILEPATH_DICT.get(self.option)['filepath']['file_name']
         self.database = database
 
         self.rowconfigure(0, weight=1)
@@ -114,7 +179,7 @@ class TableFrame(tk.Frame):
         self.configure_table()
 
     def configure_header(self):
-        for attribute in OPTION_ENTITY_FILENAME_DICT.get(self.option)[0]().__dict__:
+        for attribute in OPTION_ENTITY_FILEPATH_DICT.get(self.option)['entity_name']().__dict__:
             fixed_attribute = attribute.replace('_', ' ').strip()
             fixed_attribute = fixed_attribute[0].upper() + fixed_attribute[1:]
 
@@ -130,31 +195,52 @@ class TableFrame(tk.Frame):
         table_area = tk.Frame(frame.interior)
 
         for i, header in enumerate(self.headers):
-            tk.Label(table_area, text=header).grid(row=0, column=i + 1, pady=2)
+            tk.Label(table_area, text=header).grid(row=0, column=i + 2, pady=2)
 
         db1 = self.database.database
         if db1 is not None and len(db1) > 0:
             for row_index, item in enumerate(db1):
+                tk.Button(table_area, text='Delete', command=lambda item_=item: multi_functions(
+                    WarningWindow(self.parent, self.option, item_)
+                        .configure_widget())).grid(row=row_index + 1, column=0)
+
                 tk.Button(table_area, text='Edit', command=lambda entity=db1[item]: multi_functions(
                     EntityWindow(self.parent, self.option, self.database, entities=[entity])
-                        .configure_widget())).grid(row=row_index + 1, column=0)
+                        .configure_widget())).grid(row=row_index + 1, column=1)
 
                 attributes = db1[item].__dict__
                 for column_index, attribute in enumerate(attributes):
                     if attribute in FOREIGN_KEYS:
-                        self.database.open_database('entity', attribute)
+                        self.database.open_database(FILENAME_FOLDER_DICT.get(attribute), attribute)
 
                         db2 = self.database.database
                         for item2 in db2:
                             if db2[item2].__dict__['id_'] == attributes[attribute]:
                                 tk.Label(table_area,
                                          text=db2[item2].__dict__['name']).grid(row=row_index + 1,
-                                                                                column=column_index + 1)
+                                                                                column=column_index + 2)
                     else:
                         tk.Label(table_area,
-                                 text=attributes[attribute]).grid(row=row_index + 1, column=column_index + 1)
+                                 text=attributes[attribute]).grid(row=row_index + 1, column=column_index + 2)
 
         table_area.pack()
+
+
+class WarningWindow(tk.Toplevel):
+    def __init__(self, parent, option, item):
+        super().__init__()
+
+        self.parent = parent
+        self.option = option
+        self.item = item
+
+    def configure_widget(self):
+        tk.Label(self, text='Are you sure you want to delete this entity?').grid(row=0, column=0, columnspan=2, padx=10,
+                                                                                 pady=10)
+        tk.Button(self, text='No', command=lambda: self.destroy()).grid(row=1, column=0, padx=10, pady=10, sticky='e')
+        tk.Button(self, text='Yes', command=lambda: multi_functions(
+            self.parent.delete_entity(self.option, self.item), self.parent.configure_table(self.option),
+            self.destroy())).grid(row=1, column=1, padx=10, pady=10, sticky='w')
 
 
 class EntityWindow(tk.Toplevel):
@@ -219,7 +305,7 @@ class EntityWindow(tk.Toplevel):
             self.attribute_list = []
 
             attribute_row = 0
-            for attribute in OPTION_ENTITY_FILENAME_DICT.get(self.option)[0]().__dict__:
+            for attribute in OPTION_ENTITY_FILEPATH_DICT.get(self.option)['entity_name']().__dict__:
                 if attribute != 'id_' and attribute != 'date':
                     label_name = attribute.replace('_', ' ').strip()
                     label_name = label_name[0].upper() + label_name[1:]
@@ -249,7 +335,8 @@ class EntityWindow(tk.Toplevel):
             self.entries.append(entity_entries)
             row = entity_row
 
-        self.database.open_database('entity', OPTION_ENTITY_FILENAME_DICT.get(self.option)[1])
+        self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(self.option)['filepath']['folder'],
+                                    OPTION_ENTITY_FILEPATH_DICT.get(self.option)['filepath']['file_name'])
 
         return row
 
@@ -282,7 +369,8 @@ class EntityWindow(tk.Toplevel):
 
             for entry, attribute in zip(entity_entries, needed_attributes):
                 if attribute in FOREIGN_KEYS:
-                    self.database.open_database('entity', attribute)
+                    self.database.open_database(FILENAME_FOLDER_DICT.get(attribute),
+                                                attribute)
 
                     relatable_entity_database = self.database.database
                     for item in relatable_entity_database:
@@ -300,7 +388,8 @@ class EntityWindow(tk.Toplevel):
                     entry.insert(0, attributes[attribute])
 
     def create_new_entity(self, option, change):
-        self.database.open_database('entity', OPTION_ENTITY_FILENAME_DICT.get(option)[1])
+        self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'],
+                                    OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name'])
 
         if not change:
             self.new_entity_id = [self.database.biggest_id + 1]
@@ -312,22 +401,21 @@ class EntityWindow(tk.Toplevel):
             for attribute, entry in zip(self.attribute_list, self.entries[num]):
                 kwargs[attribute] = entry.get()
 
-            print('kwargs:', kwargs)
-
-            new_entity = OPTION_ENTITY_FILENAME_DICT.get(option)[0](id_=self.new_entity_id[num], **kwargs)
+            new_entity = OPTION_ENTITY_FILEPATH_DICT.get(option)['entity_name'](id_=self.new_entity_id[num], **kwargs)
 
             if new_entity is None:
                 Exception('New entity is None')
 
             self.database.database[self.new_entity_id[num]] = new_entity
-            self.database.save_database('entity', OPTION_ENTITY_FILENAME_DICT.get(option)[1])
-
-        self.calling_frame.configure_table(option)
+            self.database.save_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'],
+                                        OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name'])
 
         if self.relation_frame is not None:
-            self.relation_frame.entity = new_entity
+            self.relation_frame.entities = [new_entity]
             self.relation_frame.configure_widget()
             self.create_new_relation(self.new_entity_id[0], option)
+
+        self.calling_frame.configure_table(option)
 
         self.configure_next_entity_frame()
 
@@ -340,7 +428,7 @@ class EntityWindow(tk.Toplevel):
         entity_chosen_option_map = self.relation_frame.entity_chosen_option_map
 
         for item, file_name in zip(entity_chosen_option_map, self.relation_frame.file_names):
-            self.database.open_database('relation_entity', file_name)
+            self.database.open_database(FILENAME_FOLDER_DICT.get(file_name), file_name)
 
             for item2 in self.relation_frame.items_to_delete[file_name]:
                 del self.database.database[item2]
@@ -366,7 +454,7 @@ class EntityWindow(tk.Toplevel):
                 self.database.database[new_entity_id] = new_entity
                 new_entity_id += 1
 
-            self.database.save_database('relation_entity', file_name)
+            self.database.save_database(FILENAME_FOLDER_DICT.get(file_name), file_name)
 
 
 class RelationFrame(tk.Frame):
@@ -376,9 +464,7 @@ class RelationFrame(tk.Frame):
         self.entities = entities
         self.relation_entities = relation_entities
         self.database = database
-        self.chosen_option = chosen_option[:-1].lower()
-        if chosen_option == 'School_classes':
-            self.chosen_option = chosen_option[:-2].lower()
+        self.chosen_option = OPTION_ENTITY_FILEPATH_DICT.get(chosen_option)['filepath']['file_name']
         self.file_names = []
         self.chosen_options = {}
         self.entity_chosen_option_map = {}
@@ -431,27 +517,25 @@ class RelationFrame(tk.Frame):
         tk.Label(self, text=value).grid(row=2, column=column)
 
     def filter_id_name_map(self, entity, relation_entity, chosen_options, column):
-        for filename in RELATION_ENTITY_FILE_NAMES:
-            if relation_entity in filename and self.chosen_option in filename:
+        for file_name in RELATION_ENTITY_FILE_NAMES:
+            if relation_entity in file_name and self.chosen_option in file_name:
+                self.items_to_delete[file_name] = []
 
-                self.items_to_delete[filename] = []
+                self.file_names.append(file_name)
 
-                self.file_names.append(filename)
-                self.database.open_database('relation_entity', filename)
-
+                self.database.open_database(FILENAME_FOLDER_DICT.get(file_name), file_name)
                 db1 = self.database.database
 
                 if db1 is not None and len(db1) > 0:
                     row = 2
-
                     for item in db1:
                         id_chosen_option = db1[item].__dict__[self.chosen_option]
                         id_relatable_entity = db1[item].__dict__[relation_entity]
 
                         if id_chosen_option == entity.id_:
-                            self.items_to_delete[filename].append(item)
+                            self.items_to_delete[file_name].append(item)
 
-                            self.database.open_database('entity', relation_entity)
+                            self.database.open_database(FILENAME_FOLDER_DICT.get(relation_entity), relation_entity)
                             db2 = self.database.database
 
                             for item2 in db2:
@@ -491,7 +575,7 @@ class RelationOptionMenu(tk.OptionMenu):
         self.id_name_map = self.create_map(self.chosen_options.values())
 
     def create_map(self, chosen_options):
-        self.database.open_database(self.folder, self.entity)
+        self.database.open_database(FILENAME_FOLDER_DICT.get(self.entity), self.entity)
 
         self.parent.id_name_map = {}
         id_name_map = self.parent.id_name_map
@@ -514,7 +598,7 @@ class RelationOptionMenu(tk.OptionMenu):
                             f"{id_name_map[attributes['id_']]} ({attributes['address']})"
 
                     if self.entity == 'classroom':
-                        self.database.open_database('entity', 'building')
+                        self.database.open_database('database/database_pickle/entity', 'building')
 
                         db2 = self.database.database
                         for item2 in db2:

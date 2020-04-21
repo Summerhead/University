@@ -2,31 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/entity/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity/relation_entity/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_model/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/building.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/building.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/classroom.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/classroom.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/college.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/college.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/group.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/group.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/entity/teacher.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/teacher_subject.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/building.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/building.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/classroom.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/classroom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/college.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/college.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/school_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/school_class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/specialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/specialization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/subject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/entity/teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/entity/teacher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/relation_entity/college_specialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/relation_entity/college_specialization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/relation_entity/specialization_subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/relation_entity/specialization_subject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/relation_entity/teacher_subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity/relation_entity/teacher_subject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/building_database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/college_database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/entity_database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/specialization_database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/subject_database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_model/teacher_database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/building.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/classroom.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/college.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/college.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/group.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
@@ -52,16 +52,23 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\database" />
+      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\view" />
+      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\entity" />
+      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\entity\relation_entity" />
+      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\entity\entity" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\database" />
       <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\entity\relation_entity" />
       <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\entity\entity" />
       <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\DB_Model" />
       <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\DB" />
-      <recent name="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\Entity" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -77,6 +84,27 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
+    <configuration name="database (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="проект" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/database/database.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="проект" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -161,34 +189,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sm" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="проект" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Dreampopper\safu\3 курс 2 семестр\ооп\проект\examples\resizing_widgets_2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.database (1)" />
         <item itemvalue="Python.schedule" />
         <item itemvalue="Python.database" />
         <item itemvalue="Python.resizing_widgets_2" />
-        <item itemvalue="Python.sm" />
       </list>
     </recent_temporary>
   </component>
@@ -273,7 +280,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587119192293</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="optimized process of creating an entity">
+      <created>1587384923708</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1587384923708</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -309,6 +323,7 @@
     <MESSAGE value="refactored schedule. almost finished" />
     <MESSAGE value="worked on adding school classes to schedule" />
     <MESSAGE value="worked on adding multiple school classes to schedule at once" />
-    <option name="LAST_COMMIT_MESSAGE" value="worked on adding multiple school classes to schedule at once" />
+    <MESSAGE value="optimized process of creating an entity" />
+    <option name="LAST_COMMIT_MESSAGE" value="optimized process of creating an entity" />
   </component>
 </project>
