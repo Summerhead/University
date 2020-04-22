@@ -1,32 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
+    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="folders are retrieved from dicts now">
+      <change afterPath="$PROJECT_DIR$/database/database_pickle/entity/building.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/database_pickle/entity/college.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/database_pickle/entity/group.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/entity/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/relation_entity/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/teacher_subject.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/building_database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/college_database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/entity_database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/specialization_database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/subject_database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_model/teacher_database.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/building.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/classroom.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/college.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/college.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/group.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/specialization.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/specialization.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/subject.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/college_specialization.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/teacher.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/school_class.pkl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
@@ -192,9 +178,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.database (1)" />
-        <item itemvalue="Python.schedule" />
         <item itemvalue="Python.database" />
+        <item itemvalue="Python.schedule" />
+        <item itemvalue="Python.database (1)" />
         <item itemvalue="Python.resizing_widgets_2" />
       </list>
     </recent_temporary>
@@ -287,7 +273,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587384923708</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="folders are retrieved from dicts now">
+      <created>1587479852748</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1587479852749</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -324,6 +317,7 @@
     <MESSAGE value="worked on adding school classes to schedule" />
     <MESSAGE value="worked on adding multiple school classes to schedule at once" />
     <MESSAGE value="optimized process of creating an entity" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimized process of creating an entity" />
+    <MESSAGE value="folders are retrieved from dicts now" />
+    <option name="LAST_COMMIT_MESSAGE" value="folders are retrieved from dicts now" />
   </component>
 </project>

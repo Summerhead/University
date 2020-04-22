@@ -93,20 +93,26 @@ class DatabaseFrame(tk.Frame):
         self.table = None
         self.option_menu_var = None
         self.create_new_entity = None
+        self.option_bar = None
+        self.rowconfigure(index=1, weight=1)
+        self.columnconfigure(index=1, weight=1)
 
         self.configure_widget()
 
     def configure_widget(self):
         from view.home import HomeFrame
 
-        back = tk.Button(self, text='Back', command=lambda: self.master.switch_frame(HomeFrame))
+        self.option_bar = tk.Frame(self)
+        self.option_bar.grid(row=0, column=0)
+
+        back = tk.Button(self.option_bar, text='Back', command=lambda: self.master.switch_frame(HomeFrame))
         back.grid(row=0, column=0, padx=20, pady=20, ipadx=20)
 
         self.option_menu_var = tk.StringVar(self)
 
-        drop_down = tk.OptionMenu(self, self.option_menu_var, ())
+        drop_down = tk.OptionMenu(self.option_bar, self.option_menu_var, ())
         drop_down.config(width=10)
-        drop_down.grid(row=0, column=1, padx=20, pady=20, ipadx=20)
+        drop_down.grid(row=0, column=1, padx=20, pady=20, ipadx=20, sticky='w')
 
         menu = drop_down['menu']
         menu.delete(0, 'end')
@@ -125,15 +131,16 @@ class DatabaseFrame(tk.Frame):
                                     OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name'])
         self.table = TableFrame(self, option, self.database)
         self.table.configure_widget()
-        self.table.grid(row=1, column=1)
+        self.table.grid(row=1, column=0, columnspan=3, sticky='n')
+        self.table.rowconfigure(index=1, weight=1)
 
         if self.create_new_entity is not None:
             self.create_new_entity.grid_forget()
 
-        self.create_new_entity = tk.Button(self, text='Create new',
+        self.create_new_entity = tk.Button(self.option_bar, text='Create new',
                                            command=lambda: EntityWindow(self, option, self.database)
                                            .configure_widget())
-        self.create_new_entity.grid(row=1, column=0)
+        self.create_new_entity.grid(row=0, column=2, sticky='w')
 
     def delete_entity(self, option, item):
         file_name = OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name']
@@ -169,9 +176,6 @@ class TableFrame(tk.Frame):
         self.option = option
         self.file_name = OPTION_ENTITY_FILEPATH_DICT.get(self.option)['filepath']['file_name']
         self.database = database
-
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
         self.headers = []
 
     def configure_widget(self):
@@ -264,6 +268,7 @@ class EntityWindow(tk.Toplevel):
         self.attribute_list = []
 
     def configure_widget(self):
+        self.columnconfigure(index=0, weight=1)
         self.configure_content()
 
     def configure_content(self):
@@ -329,7 +334,8 @@ class EntityWindow(tk.Toplevel):
                             menu.add_command(label=id_name_map.get(option),
                                              command=lambda option_=option, value=id_name_map.get(option),
                                                             label_name_=label_name, entry_=entry: multi_functions(
-                                                 set_entry_text(entry_, value)))
+                                                 set_entry_text(entry_, value),
+                                                 self.put_in_entity_id_dict(entry_, option_)))
                     attribute_row += 1
 
             self.entries.append(entity_entries)
@@ -350,8 +356,18 @@ class EntityWindow(tk.Toplevel):
             self.change = False
 
     def add_send_button(self, row):
-        tk.Button(self.main_frame, text='OK', command=lambda: multi_functions(
-            self.create_new_entity(self.option, self.change))).grid(row=row, column=0)
+        send_buttons_frame = tk.Frame(self.main_frame)
+        send_buttons_frame.grid(row=row, column=0)
+
+        tk.Button(send_buttons_frame, text='Save & Next', command=lambda: multi_functions(
+            self.create_new_entity(self.option, self.change), self.clear_entities(),
+            self.configure_next_entity_frame())).grid(row=row, column=0)
+
+        tk.Button(send_buttons_frame, text='Save & Close', command=lambda: multi_functions(
+            self.create_new_entity(self.option, self.change), self.destroy())).grid(row=row, column=1)
+
+    def clear_entities(self):
+        self.entities = []
 
     def add_relation_frame(self):
         relatable_entities = ENTITIES_CREATE_RELATION_DICT.get(self.option)
@@ -359,8 +375,8 @@ class EntityWindow(tk.Toplevel):
         self.relation_frame.configure_widget()
         self.relation_frame.grid(row=1, column=0)
 
-    def put_in_entity_id_dict(self, label_name, option):
-        self.entity_id_dict[label_name] = option
+    def put_in_entity_id_dict(self, entity, option):
+        self.entity_id_dict[entity] = option
 
     def fill_frame(self):
         for entity_entries, entity in zip(self.entries, self.entities):
@@ -369,8 +385,7 @@ class EntityWindow(tk.Toplevel):
 
             for entry, attribute in zip(entity_entries, needed_attributes):
                 if attribute in FOREIGN_KEYS:
-                    self.database.open_database(FILENAME_FOLDER_DICT.get(attribute),
-                                                attribute)
+                    self.database.open_database(FILENAME_FOLDER_DICT.get(attribute), attribute)
 
                     relatable_entity_database = self.database.database
                     for item in relatable_entity_database:
@@ -381,8 +396,7 @@ class EntityWindow(tk.Toplevel):
                                 desired_attribute_name = 'number'
 
                             entry.insert(0, relatable_entity_database[item].__dict__[desired_attribute_name])
-                            self.put_in_entity_id_dict(attribute[0].upper() + attribute[1:],
-                                                       relatable_entity_database[item].__dict__['id_'])
+                            self.put_in_entity_id_dict(entry, relatable_entity_database[item].__dict__['id_'])
 
                 else:
                     entry.insert(0, attributes[attribute])
@@ -393,20 +407,33 @@ class EntityWindow(tk.Toplevel):
 
         if not change:
             self.new_entity_id = [self.database.biggest_id + 1]
+        else:
+            self.entities = []
 
         new_entity = None
 
         for num, entity_frame in enumerate(self.entities_frame.grid_slaves()):
             kwargs = {}
             for attribute, entry in zip(self.attribute_list, self.entries[num]):
-                kwargs[attribute] = entry.get()
+                if entry in self.entity_id_dict:
+                    attribute_value = self.entity_id_dict[entry]
+                else:
+                    attribute_value = entry.get()
+                kwargs[attribute] = attribute_value
 
-            new_entity = OPTION_ENTITY_FILEPATH_DICT.get(option)['entity_name'](id_=self.new_entity_id[num], **kwargs)
+            if option == 'School classes':
+                kwargs['date'] = self.date
+
+            new_entity = OPTION_ENTITY_FILEPATH_DICT.get(option)['entity_name'](id_=self.new_entity_id[num - 1],
+                                                                                **kwargs)
+
+            if change:
+                self.entities.append(new_entity)
 
             if new_entity is None:
                 Exception('New entity is None')
 
-            self.database.database[self.new_entity_id[num]] = new_entity
+            self.database.database[self.new_entity_id[num - 1]] = new_entity
             self.database.save_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'],
                                         OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name'])
 
@@ -417,13 +444,11 @@ class EntityWindow(tk.Toplevel):
 
         self.calling_frame.configure_table(option)
 
-        self.configure_next_entity_frame()
-
     def configure_next_entity_frame(self):
         self.configure_widget()
 
     def create_new_relation(self, new_entity_id, chosen_option):
-        relation_map = {chosen_option.lower()[:-1]: new_entity_id}
+        relation_map = {OPTION_ENTITY_FILEPATH_DICT.get(chosen_option)['filepath']['file_name']: new_entity_id}
 
         entity_chosen_option_map = self.relation_frame.entity_chosen_option_map
 
@@ -573,6 +598,8 @@ class RelationOptionMenu(tk.OptionMenu):
         self.menu.delete(0, 'end')
 
         self.id_name_map = self.create_map(self.chosen_options.values())
+
+        # print('self.id_name_map:', self.id_name_map)
 
     def create_map(self, chosen_options):
         self.database.open_database(FILENAME_FOLDER_DICT.get(self.entity), self.entity)
