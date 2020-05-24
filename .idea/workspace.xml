@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="folders are retrieved from dicts now">
-      <change afterPath="$PROJECT_DIR$/database/database_pickle/entity/building.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/database_pickle/entity/college.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/database_pickle/entity/group.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/teacher_subject.pkl" afterDir="false" />
+    <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="worked on adding classes to schedule">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/classroom.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/classroom.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/college.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/college.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/school_class.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/subject.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/teacher.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/school_class.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/relation_entity/teacher_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/teacher_subject.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -280,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587479852749</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="worked on adding classes to schedule">
+      <created>1587576497491</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1587576497491</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -318,6 +322,7 @@
     <MESSAGE value="worked on adding multiple school classes to schedule at once" />
     <MESSAGE value="optimized process of creating an entity" />
     <MESSAGE value="folders are retrieved from dicts now" />
-    <option name="LAST_COMMIT_MESSAGE" value="folders are retrieved from dicts now" />
+    <MESSAGE value="worked on adding classes to schedule" />
+    <option name="LAST_COMMIT_MESSAGE" value="worked on adding classes to schedule" />
   </component>
 </project>

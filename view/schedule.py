@@ -5,9 +5,7 @@ import tkinter as tk
 from view.database import multi_functions, EntityWindow, set_entry_text, DatabaseFrame
 
 TYPE_OPTIONS = ['Лекция', 'Практика', 'Зачет']
-
 BACKGROUND_COLORS = {'Лекция': 'white', 'Практика': '#ABF1FF', 'Зачет': '#EEFF97'}
-
 TIME = {1: '09:20', 2: '10:10', 3: '12:00', 4: '13:30', 5: '16:00', 6: '17:20', 7: '16:10'}
 
 
@@ -77,6 +75,7 @@ class ScheduleFrame(tk.Frame):
 
         self.entities = ['Classroom', 'Subject', 'Teacher']
         self.today = datetime.date.today()
+        self.today_datetime = datetime.datetime.today()
         self.date_list = None
 
         self.rowconfigure(index=1, weight=1)
@@ -112,7 +111,8 @@ class ScheduleFrame(tk.Frame):
     def configure_schedule_frame(self):
         if self.schedule_frame is not None:
             self.schedule_frame.destroy()
-        self.schedule_frame = tk.LabelFrame(self, text='Schedule')
+
+        self.schedule_frame = tk.LabelFrame(self, text=calendar.month_name[self.today_datetime.month])
         self.schedule_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky='n')
         self.schedule_frame.rowconfigure(index=1, weight=1)
 
@@ -204,11 +204,15 @@ class ScheduleFrame(tk.Frame):
         self.database.open_database('database/database_pickle/entity', 'school_class')
         self.today = self.today.replace(day=1) - datetime.timedelta(days=1)
 
+        self.today_datetime = self.today_datetime.replace(day=1) - datetime.timedelta(days=1)
+
     def increment_month(self):
         self.database.open_database('database/database_pickle/entity', 'school_class')
         monthrange = calendar.monthrange(self.today.year, self.today.month)
         num_of_days = monthrange[1]
         self.today = self.today.replace(day=num_of_days) + datetime.timedelta(days=1)
+
+        self.today_datetime = self.today_datetime.replace(day=num_of_days) + datetime.timedelta(days=1)
 
 
 class DayEntityWindow(EntityWindow):
