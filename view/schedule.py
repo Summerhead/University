@@ -5,7 +5,9 @@ import tkinter as tk
 from view.database import multi_functions, EntityWindow, set_entry_text, DatabaseFrame
 
 TYPE_OPTIONS = ['Лекция', 'Практика', 'Зачет']
+
 BACKGROUND_COLORS = {'Лекция': 'white', 'Практика': '#ABF1FF', 'Зачет': '#EEFF97'}
+
 TIME = {1: '09:20', 2: '10:10', 3: '12:00', 4: '13:30', 5: '16:00', 6: '17:20', 7: '16:10'}
 
 

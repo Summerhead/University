@@ -50,7 +50,11 @@ OPTION_ENTITY_FILEPATH_DICT = {'Colleges': {'entity_name': College,
                                                         'file_name': 'specialization_subject'}},
                                'TeachSub': {'entity_name': TeacherSubject,
                                             'filepath': {'folder': 'database/database_pickle/relation_entity',
-                                                         'file_name': 'teacher_subject'}}}
+                                                         'file_name': 'teacher_subject'}},
+                               'Test': {'entity_name': Subject,
+                                        'filepath': {
+                                            'folder': 'C:/Users/Dreampopper/safu/3 курс 2 семестр/ооп/проект/tests',
+                                            'file_name': 'test_subject'}}}
 
 FILENAME_FOLDER_DICT = {'college': 'database/database_pickle/entity',
                         'specialization': 'database/database_pickle/entity', 'group': 'database/database_pickle/entity',
@@ -59,7 +63,8 @@ FILENAME_FOLDER_DICT = {'college': 'database/database_pickle/entity',
                         'school_class': 'database/database_pickle/entity',
                         'college_specialization': 'database/database_pickle/relation_entity',
                         'specialization_subject': 'database/database_pickle/relation_entity',
-                        'teacher_subject': 'database/database_pickle/relation_entity'}
+                        'teacher_subject': 'database/database_pickle/relation_entity',
+                        'test_subject': 'C:/Users/Dreampopper/safu/3 курс 2 семестр/ооп/проект/tests'}
 
 FOREIGN_KEYS = ['college', 'specialization', 'building', 'classroom', 'subject', 'teacher']
 
@@ -68,8 +73,11 @@ ENTITIES_CREATE_RELATION_DICT = {'Colleges': ['specialization'],
                                  'Teachers': ['subject'],
                                  'Subjects': ['specialization', 'teacher']}
 
-RELATION_ENTITY_FILE_NAMES = [file_name.replace('.py', '') for file_name in listdir('entity/relation_entity/') if
-                              isfile(join('entity/relation_entity/', file_name)) and file_name != '__init__.py']
+RELATION_ENTITY_FILE_NAMES = \
+    [file_name.replace('.py', '') for file_name in
+     listdir('C:/Users/Dreampopper/safu/3 курс 2 семестр/ооп/проект/entity/relation_entity/') if
+     isfile(join('C:/Users/Dreampopper/safu/3 курс 2 семестр/ооп/проект/entity/relation_entity/', file_name))
+     and file_name != '__init__.py']
 
 
 def multi_functions(*functions):
@@ -144,6 +152,8 @@ class DatabaseFrame(tk.Frame):
 
     def delete_entity(self, option, item):
         file_name = OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name']
+        print('option: ', option)
+        print('file_name: ', file_name)
 
         self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'], file_name)
         del self.database.database[item]

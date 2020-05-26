@@ -63,3 +63,9 @@ class Database(object):
         self.biggest_id = 0
 
         self.save_database(folder, file_name)
+
+    def print_database(self):
+        for item in self.database:
+            attributes = self.database[item].__dict__
+            for attribute in attributes:
+                print('{0}: {1}'.format(attribute, attributes[attribute]))
