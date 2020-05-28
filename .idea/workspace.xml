@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc519b8e-35b9-45b4-9f67-551cf24e04bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/test_database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_subject.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/school_class.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/school_class.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/entity/teacher.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/entity/teacher.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/college_specialization.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/specialization_subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database_pickle/relation_entity/teacher_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/database/database_pickle/relation_entity/teacher_subject.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_subject.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_subject.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/home.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/view/schedule.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,7 +70,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python tests.Unittests in test_database.py">
     <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="проект" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,8 +157,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Unittests in test_database.py" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Unittests for test_database.TestDatabase.test_table_frame_configure_header" />
         <item itemvalue="Python.database" />
         <item itemvalue="Python tests.Unittests for test_database.TestDatabase" />
@@ -268,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590327220977</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Added some tests">
+      <created>1590500579043</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1590500579043</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -308,6 +321,7 @@
     <MESSAGE value="folders are retrieved from dicts now" />
     <MESSAGE value="worked on adding classes to schedule" />
     <MESSAGE value="name of the month in the name of the schedule frame panel instead of &quot;Schedule&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="name of the month in the name of the schedule frame panel instead of &quot;Schedule&quot;" />
+    <MESSAGE value="Added some tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some tests" />
   </component>
 </project>

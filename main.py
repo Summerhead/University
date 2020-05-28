@@ -6,6 +6,10 @@ from view.schedule import ScheduleFrame
 
 
 class CreateRoot(tk.Tk):
+    """
+    Корневой виджет приложения.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -14,6 +18,11 @@ class CreateRoot(tk.Tk):
         self.switch_frame(ScheduleFrame)
 
     def switch_frame(self, frame_class):
+        """
+        Переключить панель.
+        :param frame_class:
+        :return:
+        """
         if self._frame is not None:
             self._frame.destroy()
 

@@ -2,6 +2,10 @@ import tkinter as tk
 
 
 class HomeFrame(tk.Frame):
+    """
+    Панель домашней страницы.
+    """
+
     def __init__(self, *args, **kwargs):
         from view.database import DatabaseFrame
         from view.schedule import ScheduleFrame

@@ -58,6 +58,10 @@ class VerticalScrolledFrame(tk.LabelFrame):
 
 
 class ScheduleFrame(tk.Frame):
+    """
+    Панель расписания.
+    """
+
     def __init__(self, *args, **kwargs):
         from database.database import Database
 
@@ -67,13 +71,6 @@ class ScheduleFrame(tk.Frame):
         self.database.open_database('database/database_pickle/entity', 'school_class')
         self.schedule_frame = None
         self.schedule_area = None
-
-        # db = self.database.database
-        # for item in db:
-        #     print('item,db[item]:', item, db[item])
-        #     attrs = db[item].__dict__
-        #     for attr in attrs:
-        #         print('attr,attrs[attr]', attr, attrs[attr])
 
         self.entities = ['Classroom', 'Subject', 'Teacher']
         self.today = datetime.date.today()
@@ -86,6 +83,10 @@ class ScheduleFrame(tk.Frame):
         self.configure_widget()
 
     def configure_widget(self):
+        """
+        Конфигурирует панель расписания.
+        :return:
+        """
         from view.home import HomeFrame
 
         if self is not None:
@@ -105,12 +106,20 @@ class ScheduleFrame(tk.Frame):
         self.configure_schedule()
 
     def configure_schedule(self):
+        """
+        Запускает полную конфигурацию расписания.
+        :return:
+        """
         self.configure_schedule_frame()
         self.configure_headers()
         self.configure_schedule_area()
         self.configure_table()
 
     def configure_schedule_frame(self):
+        """
+        Конфигурирует панель расписания.
+        :return:
+        """
         if self.schedule_frame is not None:
             self.schedule_frame.destroy()
 
@@ -119,6 +128,10 @@ class ScheduleFrame(tk.Frame):
         self.schedule_frame.rowconfigure(index=1, weight=1)
 
     def configure_headers(self):
+        """
+        Конфигурирует заголовки расписания.
+        :return:
+        """
         day_names_area = tk.Frame(self.schedule_frame)
         day_names = calendar.day_name
 
@@ -129,12 +142,20 @@ class ScheduleFrame(tk.Frame):
         day_names_area.pack(fill='x', expand=True, padx=(0, 20))
 
     def configure_schedule_area(self):
+        """
+        Конфигурирует область расписания.
+        :return:
+        """
         vs_frame = VerticalScrolledFrame(self.schedule_frame)
         vs_frame.pack()
 
         self.schedule_area = tk.Frame(vs_frame.interior)
 
     def configure_dates(self):
+        """
+        Конфигурирует даты.
+        :return:
+        """
         first_day_date = self.today.replace(day=1)
 
         monthrange = calendar.monthrange(self.today.year, self.today.month)
@@ -146,6 +167,11 @@ class ScheduleFrame(tk.Frame):
         return first_day
 
     def configure_table(self, option=None):
+        """
+        Конфигурирует таблицу.
+        :param option:
+        :return:
+        """
         day_area_row = 0
         day_area_column = self.configure_dates()
 
@@ -203,12 +229,20 @@ class ScheduleFrame(tk.Frame):
         self.schedule_area.pack()
 
     def decrement_month(self):
+        """
+        Декрементирует месяц.
+        :return:
+        """
         self.database.open_database('database/database_pickle/entity', 'school_class')
         self.today = self.today.replace(day=1) - datetime.timedelta(days=1)
 
         self.today_datetime = self.today_datetime.replace(day=1) - datetime.timedelta(days=1)
 
     def increment_month(self):
+        """
+        Инкрементирует месяц.
+        :return:
+        """
         self.database.open_database('database/database_pickle/entity', 'school_class')
         monthrange = calendar.monthrange(self.today.year, self.today.month)
         num_of_days = monthrange[1]
@@ -218,6 +252,10 @@ class ScheduleFrame(tk.Frame):
 
 
 class DayEntityWindow(EntityWindow):
+    """
+    Окно расписания на день.
+    """
+
     def __init__(self, calling_frame=None, option='School classes', database=None, entities=None, date=None):
         super().__init__(calling_frame=calling_frame, option=option, database=database, entities=entities)
 
@@ -230,12 +268,20 @@ class DayEntityWindow(EntityWindow):
         self.num_classes = []
 
     def configure_widget(self):
+        """
+        Конфигурирует окно расписания на день.
+        :return:
+        """
         super().configure_widget()
 
         self.add_missing_widgets()
         self.add_new_class_button(self.main_frame.grid_size()[1] - 1)
 
     def add_missing_widgets(self):
+        """
+        Добавляет недостающие виджеты.
+        :return:
+        """
         new_entity_id = self.new_entity_id
         new_entity_id.reverse()
         for num, (entity_frame, entity_id) in enumerate(zip(self.entities_frame.grid_slaves(), new_entity_id)):
@@ -269,6 +315,11 @@ class DayEntityWindow(EntityWindow):
                           self.calling_frame.configure_schedule())).grid(row=0, rowspan=5, column=3)
 
     def add_new_class_button(self, row):
+        """
+        Добавляет на панель кнопку, добавляющую новый класс в панель расписания.
+        :param row:
+        :return:
+        """
         ok_button = self.main_frame.grid_slaves(row=row, column=0)[0]
         ok_button.grid(row=row + 1, column=0)
         tk.Button(self.main_frame, text='Add class',
@@ -285,12 +336,25 @@ class DayEntityWindow(EntityWindow):
             row=row, column=0)
 
     def add_class_button_clicked(self):
+        """
+        Инкрементирует количество кликов по кнопке добавления класса.
+        :return:
+        """
         self.number_of_entities += 1
 
     def change_to_true(self):
+        """
+        Изменяет значение аттрибута self.change на True.
+        :return:
+        """
         self.change = True
 
     def delete_from_entities(self, item):
+        """
+        Удаляет сущность из словаря.
+        :param item:
+        :return:
+        """
         for num, entity_item in enumerate(self.entities):
             if entity_item.__dict__['id_'] == item:
                 del self.entities[num]

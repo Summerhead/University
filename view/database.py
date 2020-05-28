@@ -94,6 +94,10 @@ def set_entry_text(entry, text):
 
 
 class DatabaseFrame(tk.Frame):
+    """
+    Панель окна базы данных.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -108,6 +112,10 @@ class DatabaseFrame(tk.Frame):
         self.configure_widget()
 
     def configure_widget(self):
+        """
+        Конфигурирует панель окна базы данных.
+        :return:
+        """
         from view.home import HomeFrame
 
         self.option_bar = tk.Frame(self)
@@ -132,6 +140,11 @@ class DatabaseFrame(tk.Frame):
         self.option_menu_var.set('Choose table')
 
     def configure_table(self, option):
+        """
+        Конфигурирует таблицу.
+        :param option:
+        :return:
+        """
         if self.table is not None:
             self.table.grid_forget()
 
@@ -151,9 +164,13 @@ class DatabaseFrame(tk.Frame):
         self.create_new_entity.grid(row=0, column=2, sticky='w')
 
     def delete_entity(self, option, item):
+        """
+        Удаляет сущность из базы банных.
+        :param option:
+        :param item:
+        :return:
+        """
         file_name = OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name']
-        print('option: ', option)
-        print('file_name: ', file_name)
 
         self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'], file_name)
         del self.database.database[item]
@@ -179,6 +196,10 @@ class DatabaseFrame(tk.Frame):
 
 
 class TableFrame(tk.Frame):
+    """
+    Панель таблицы.
+    """
+
     def __init__(self, parent=None, option=None, database=None):
         super().__init__(parent)
 
@@ -193,6 +214,10 @@ class TableFrame(tk.Frame):
         self.configure_table()
 
     def configure_header(self):
+        """
+        Конфигурирует заголовки таблицы.
+        :return:
+        """
         for attribute in OPTION_ENTITY_FILEPATH_DICT.get(self.option)['entity_name']().__dict__:
             fixed_attribute = attribute.replace('_', ' ').strip()
             fixed_attribute = fixed_attribute[0].upper() + fixed_attribute[1:]
@@ -203,6 +228,12 @@ class TableFrame(tk.Frame):
             self.headers.append(fixed_attribute)
 
     def configure_table(self):
+        """
+        Конфигурирует тело таблицы.
+        :return:
+        """
+        from view.schedule import VerticalScrolledFrame
+
         frame = VerticalScrolledFrame(self)
         frame.grid(row=0, column=1, columnspan=len(self.headers), padx=10, pady=10)
 
@@ -241,6 +272,10 @@ class TableFrame(tk.Frame):
 
 
 class WarningWindow(tk.Toplevel):
+    """
+    Окно, предупреждающее об удалении сущности из базы данных.
+    """
+
     def __init__(self, parent, option, item):
         super().__init__()
 
@@ -249,6 +284,10 @@ class WarningWindow(tk.Toplevel):
         self.item = item
 
     def configure_widget(self):
+        """
+        Конфигурация окна предупреждения.
+        :return:
+        """
         tk.Label(self, text='Are you sure you want to delete this entity?').grid(row=0, column=0, columnspan=2, padx=10,
                                                                                  pady=10)
         tk.Button(self, text='No', command=lambda: self.destroy()).grid(row=1, column=0, padx=10, pady=10, sticky='e')
@@ -258,6 +297,10 @@ class WarningWindow(tk.Toplevel):
 
 
 class EntityWindow(tk.Toplevel):
+    """
+    Окно сущности.
+    """
+
     def __init__(self, calling_frame=None, option=None, database=None, entities=None):
         super().__init__()
 
@@ -278,10 +321,18 @@ class EntityWindow(tk.Toplevel):
         self.attribute_list = []
 
     def configure_widget(self):
+        """
+        Конфигурация окна сущности.
+        :return:
+        """
         self.columnconfigure(index=0, weight=1)
         self.configure_content()
 
     def configure_content(self):
+        """
+        Конфигурация контента окна сущности.
+        :return:
+        """
         entities = len(self.entities)
         if entities == 0:
             entities = 1
@@ -294,6 +345,12 @@ class EntityWindow(tk.Toplevel):
             self.add_relation_frame()
 
     def configure_main_frame(self, row, entities):
+        """
+        Конфигурация основной панели окна сущности.
+        :param row:
+        :param entities:
+        :return:
+        """
         if self.main_frame is not None:
             self.main_frame.destroy()
 
@@ -357,6 +414,10 @@ class EntityWindow(tk.Toplevel):
         return row
 
     def fill_frame_configure(self):
+        """
+        Метод, определяющий, необходимо ли внести изменения в существующую сущность или создать новую.
+        :return:
+        """
         if len(self.entities) > 0:
             self.fill_frame()
             self.new_entity_id = [entity.id_ for entity in self.entities]
@@ -366,6 +427,11 @@ class EntityWindow(tk.Toplevel):
             self.change = False
 
     def add_send_button(self, row):
+        """
+        Добавляет кнопку подтверждения действия в окне сущности.
+        :param row:
+        :return:
+        """
         send_buttons_frame = tk.Frame(self.main_frame)
         send_buttons_frame.grid(row=row, column=0)
 
@@ -377,18 +443,36 @@ class EntityWindow(tk.Toplevel):
             self.create_new_entity(self.option, self.change), self.destroy())).grid(row=row, column=1)
 
     def clear_entities(self):
+        """
+        Очищает стек сущностей.
+        :return:
+        """
         self.entities = []
 
     def add_relation_frame(self):
+        """
+        Добавляет панель связанных сущностей.
+        :return:
+        """
         relatable_entities = ENTITIES_CREATE_RELATION_DICT.get(self.option)
         self.relation_frame = RelationFrame(self, self.entities, relatable_entities, self.database, self.option)
         self.relation_frame.configure_widget()
         self.relation_frame.grid(row=1, column=0)
 
-    def put_in_entity_id_dict(self, entity, option):
-        self.entity_id_dict[entity] = option
+    def put_in_entity_id_dict(self, entry, option):
+        """
+        Помещает пару "поле ввода-id опции" в словарь.
+        :param entry:
+        :param option:
+        :return:
+        """
+        self.entity_id_dict[entry] = option
 
     def fill_frame(self):
+        """
+        Заполняет панель сущности соответствующими данными этой сущности из базы данных.
+        :return:
+        """
         for entity_entries, entity in zip(self.entries, self.entities):
             attributes = entity.__dict__
             needed_attributes = [attr for attr in attributes if attr != 'id_' and attr != 'date']
@@ -412,6 +496,12 @@ class EntityWindow(tk.Toplevel):
                     entry.insert(0, attributes[attribute])
 
     def create_new_entity(self, option, change):
+        """
+        Создает новую сущность и записывает в базу данных.
+        :param option:
+        :param change:
+        :return:
+        """
         self.database.open_database(OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['folder'],
                                     OPTION_ENTITY_FILEPATH_DICT.get(option)['filepath']['file_name'])
 
@@ -455,9 +545,19 @@ class EntityWindow(tk.Toplevel):
         self.calling_frame.configure_table(option)
 
     def configure_next_entity_frame(self):
+        """
+        Конфигурирует новую панель для следующей сущности.
+        :return:
+        """
         self.configure_widget()
 
     def create_new_relation(self, new_entity_id, chosen_option):
+        """
+        Создает новую связь и записывает в базу данных.
+        :param new_entity_id:
+        :param chosen_option:
+        :return:
+        """
         relation_map = {OPTION_ENTITY_FILEPATH_DICT.get(chosen_option)['filepath']['file_name']: new_entity_id}
 
         entity_chosen_option_map = self.relation_frame.entity_chosen_option_map
@@ -493,6 +593,10 @@ class EntityWindow(tk.Toplevel):
 
 
 class RelationFrame(tk.Frame):
+    """
+    Панель связанных сущностей.
+    """
+
     def __init__(self, parent, entities, relation_entities, database, chosen_option):
         super().__init__(parent)
 
@@ -506,6 +610,10 @@ class RelationFrame(tk.Frame):
         self.items_to_delete = {}
 
     def configure_widget(self):
+        """
+        Конфигурирует панель связанных сущностей.
+        :return:
+        """
         for column, relation_entity in enumerate(self.relation_entities):
             label = tk.Label(self, text='New ' + relation_entity + ' relation')
             label.grid(row=0, column=column)
@@ -527,19 +635,33 @@ class RelationFrame(tk.Frame):
 
             for option in id_name_map:
                 menu.add_command(label=id_name_map.get(option),
-                                 command=lambda _id=option, value=id_name_map.get(option), col=column,
-                                                entity=relation_entity, dd=drop_down, lbl=label:
+                                 command=lambda id_=option, value=id_name_map.get(option), column_=column,
+                                                entity=relation_entity, drop_down_=drop_down, label_=label:
                                  multi_functions(
-                                     self.create_new_relation(col, value),
-                                     self.add_chosen_option(entity, dd, _id, value), lbl.grid_forget(),
-                                     dd.grid_forget(), self.configure_widget()))
+                                     self.create_new_relation(column_, value),
+                                     self.add_chosen_option(entity, drop_down_, id_, value), label_.grid_forget(),
+                                     drop_down_.grid_forget(), self.configure_widget()))
 
-    def add_chosen_option(self, entity, drop_down, id, value):
+    def add_chosen_option(self, entity, drop_down, id_, value):
+        """
+        Добавляет опцию в стек.
+        :param entity:
+        :param drop_down:
+        :param id_:
+        :param value:
+        :return:
+        """
         self.chosen_options = drop_down.chosen_options
-        self.chosen_options[id] = value
+        self.chosen_options[id_] = value
         self.entity_chosen_option_map[entity] = self.chosen_options
 
     def create_new_relation(self, column, value):
+        """
+        Создает новую связь.
+        :param column:
+        :param value:
+        :return:
+        """
         for slave in self.grid_slaves(column=column):
             if slave.grid_info()['row'] >= 2:
                 label_text = slave.cget('text')
@@ -552,6 +674,14 @@ class RelationFrame(tk.Frame):
         tk.Label(self, text=value).grid(row=2, column=column)
 
     def filter_id_name_map(self, entity, relation_entity, chosen_options, column):
+        """
+        Обрабатывает значения словаря. Добавляет необходимые связанные сущности из базы данных.
+        :param entity:
+        :param relation_entity:
+        :param chosen_options:
+        :param column:
+        :return:
+        """
         for file_name in RELATION_ENTITY_FILE_NAMES:
             if relation_entity in file_name and self.chosen_option in file_name:
                 self.items_to_delete[file_name] = []
@@ -576,17 +706,20 @@ class RelationFrame(tk.Frame):
                             for item2 in db2:
                                 attributes = self.database.database[item2].__dict__
 
-                                if attributes['id_'] == id_relatable_entity:
-                                    if attributes['id_'] not in chosen_options:
-                                        tk.Label(self, text=attributes['name']).grid(row=row, column=column)
-                                        row += 1
+                                if attributes['id_'] == id_relatable_entity and attributes['id_'] not in chosen_options:
+                                    tk.Label(self, text=attributes['name']).grid(row=row, column=column)
+                                    row += 1
 
-                                        chosen_options[attributes['id_']] = attributes['name']
+                                    chosen_options[attributes['id_']] = attributes['name']
 
                 break
 
 
 class RelationOptionMenu(tk.OptionMenu):
+    """
+    Меню опций связанных сущностей.
+    """
+
     def __init__(self, parent, folder, entity, database, row, column, chosen_options=None):
         self.parent = parent
         self.folder = folder
@@ -609,9 +742,12 @@ class RelationOptionMenu(tk.OptionMenu):
 
         self.id_name_map = self.create_map(self.chosen_options.values())
 
-        # print('self.id_name_map:', self.id_name_map)
-
     def create_map(self, chosen_options):
+        """
+        Создает словарь.
+        :param chosen_options:
+        :return:
+        """
         self.database.open_database(FILENAME_FOLDER_DICT.get(self.entity), self.entity)
 
         self.parent.id_name_map = {}
@@ -645,48 +781,3 @@ class RelationOptionMenu(tk.OptionMenu):
                                     f"({db2[item2].__dict__['address']})"
 
         return id_name_map
-
-
-class VerticalScrolledFrame(tk.LabelFrame):
-    """A pure Tkinter scrollable frame that actually works!
-    * Use the 'interior' attribute to place widgets inside the scrollable frame
-    * Construct and pack/place/grid normally
-    * This frame only allows vertical scrolling
-    """
-
-    def __init__(self, parent, *args, **kw):
-        tk.LabelFrame.__init__(self, parent, *args, **kw)
-
-        # create a canvas object and a vertical scrollbar for scrolling it
-        vscrollbar = tk.Scrollbar(self, orient='vertical')
-        vscrollbar.pack(fill='y', side='right', expand=False)
-        canvas = tk.Canvas(self, bd=0, highlightthickness=0, yscrollcommand=vscrollbar.set)
-        canvas.pack(side='left', fill='both', expand=True)
-        vscrollbar.config(command=canvas.yview)
-
-        # reset the view
-        canvas.xview_moveto(0)
-        canvas.yview_moveto(0)
-
-        # create a frame inside the canvas which will be scrolled with it
-        self.interior = interior = tk.Frame(canvas)
-        interior_id = canvas.create_window(0, 0, window=interior, anchor='nw')
-
-        # track changes to the canvas and frame width and sync them,
-        # also updating the scrollbar
-        def _configure_interior(event):
-            # update the scrollbars to match the size of the inner frame
-            size = (interior.winfo_reqwidth(), interior.winfo_reqheight())
-            canvas.config(scrollregion='0 0 %s %s' % size)
-            if interior.winfo_reqwidth() != canvas.winfo_width():
-                # update the canvas's width to fit the inner frame
-                canvas.config(width=interior.winfo_reqwidth(), height=interior.winfo_reqheight())
-
-        interior.bind('<Configure>', _configure_interior)
-
-        def _configure_canvas(event):
-            if interior.winfo_reqwidth() != canvas.winfo_width():
-                # update the inner frame's width to fill the canvas
-                canvas.itemconfigure(interior_id, width=canvas.winfo_width())
-
-        canvas.bind('<Configure>', _configure_canvas)
